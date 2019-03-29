@@ -1,0 +1,5 @@
+Notes from past e-mails on the L2SWBM_Ops_Res package:
+
+Please do not merge this package with the operational one, as this one has additional precipitation data sets for research purposes.
+
+The new features here can be found in the bottom 3 lines of the config file. For precip, evap, and runoff, you may select which lakes receive observational input for those variables, where S = Superior, M = Michigan-Huron, E = Erie, and O = Ontario. To remove the variable inputs for a particular lake, just remove its letter on the line for its variable. If you want to remove all precipitation inputs for all lakes, for example, you can put "N N N N".
