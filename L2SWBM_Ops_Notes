@@ -1,0 +1,11 @@
+Notes from past e-mails:
+
+- special configuration options (config.csv):
+-- configure whether or not the model simulates channel flow and diversion bias (Outflow Bias)
+-- configure whether or not the model simulates water balance process error
+-- configure whether or not the model performs model checks. If TRUE, model outputs a closure summary file, indicating the rates of water balance closure for all lakes for all 1, 12, and 60 month periods
+-- You may define your level of uncertainty regarding observations of change in storage in millimeters. Set 'Define dH Uncertainty' to TRUE, and set your uncertainty value in the field directly below. Must be at least 1 mm, which I've tried, and have been rather pleased with.
+I came up with that option after realizing the old operational version of the model, directly developed from the research version, did not infer acceptable uncertainties with changes in storage. I have not invested too much time in that with the historical record project, but figured such a configuration option would be acceptable. 
+PLEASE NOTE: this is merely your level of uncertainty which defines the likelihood distribution for changes in storage. The distribution is still continuous, and MCMC will explore as much of it as it necessary
+in discovering the solution space (component estimates that close the water balance)
+-- Do not touch the outflow inputs field... it's a placeholder
