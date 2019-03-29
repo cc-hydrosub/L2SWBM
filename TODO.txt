@@ -1,0 +1,6 @@
+TODOs (mostly for Joe, but feel free to add for others):
+
+- Upload current L2SWBM packages, along with supporting documentation
+
+- Tentative: bias adjustment config options
+
