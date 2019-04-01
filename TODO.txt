@@ -2,3 +2,8 @@ TODOs (mostly for Joe, but feel free to add for others):
 
 - Tentative: bias adjustment config options
 
+- Version numbering system
+
+- Edit model code to make options available that could be revealed in the config file (via Jacob)
+
+
