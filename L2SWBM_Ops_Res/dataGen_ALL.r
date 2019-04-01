@@ -298,3 +298,70 @@ write.table(format(clairDStore, digits=3), paste('clairDStore_L2SWBM_ALL_',rollP
 	as.numeric(checkModel),
 	as.numeric(dHPrecDefined),
 '_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.csv',sep=''), append=FALSE, quote=FALSE, sep=',', row.names=FALSE, col.names=c('Year','Month','Median','2.5 Percentile', '97.5 Percentile'));
+
+
+### NBS ESTIMATES
+
+superiorPrecip = as.matrix(jSample[,paste('superiorPrecip[',1:nMonths,']',sep='')])
+superiorEvap = as.matrix(jSample[,paste('superiorEvap[',1:nMonths,']',sep='')])
+superiorRunoff = as.matrix(jSample[,paste('superiorRunoff[',1:nMonths,']',sep='')])
+superiorNBSC = superiorPrecip - superiorEvap + superiorRunoff;
+superiorNBSCMedian = as.vector(apply(as.matrix(superiorNBSC), 2, median))
+superiorNBSC025 = as.vector(apply(as.matrix(superiorNBSC), 2, quantile, probs=c(0.025)))
+superiorNBSC975 = as.vector(apply(as.matrix(superiorNBSC), 2, quantile, probs=c(0.975)))
+superiorNBSCTab = cbind(pTime, superiorNBSCMedian, superiorNBSC025, superiorNBSC975);
+write.table(format(superiorNBSCTab, digits=3), paste('superiorNBSC_L2SWBM_ALL_',rollPeriod,'_',
+	as.numeric(biasOutflows),
+	as.numeric(incProcError),
+	as.numeric(checkModel),
+	as.numeric(dHPrecDefined),
+'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.csv',sep=''), append=FALSE, quote=FALSE, sep=',', row.names=FALSE, col.names=c('Year','Month','Median','2.5 Percentile', '97.5 Percentile'));
+
+
+miHuronPrecip = as.matrix(jSample[,paste('miHuronPrecip[',1:nMonths,']',sep='')])
+miHuronEvap = as.matrix(jSample[,paste('miHuronEvap[',1:nMonths,']',sep='')])
+miHuronRunoff = as.matrix(jSample[,paste('miHuronRunoff[',1:nMonths,']',sep='')])
+miHuronNBSC = miHuronPrecip - miHuronEvap + miHuronRunoff;
+miHuronNBSCMedian = as.vector(apply(as.matrix(miHuronNBSC), 2, median))
+miHuronNBSC025 = as.vector(apply(as.matrix(miHuronNBSC), 2, quantile, probs=c(0.025)))
+miHuronNBSC975 = as.vector(apply(as.matrix(miHuronNBSC), 2, quantile, probs=c(0.975)))
+miHuronNBSCTab = cbind(pTime, miHuronNBSCMedian, miHuronNBSC025, miHuronNBSC975);
+write.table(format(miHuronNBSCTab, digits=3), paste('miHuronNBSC_L2SWBM_ALL_',rollPeriod,'_',
+	as.numeric(biasOutflows),
+	as.numeric(incProcError),
+	as.numeric(checkModel),
+	as.numeric(dHPrecDefined),
+'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.csv',sep=''), append=FALSE, quote=FALSE, sep=',', row.names=FALSE, col.names=c('Year','Month','Median','2.5 Percentile', '97.5 Percentile'));
+
+
+eriePrecip = as.matrix(jSample[,paste('eriePrecip[',1:nMonths,']',sep='')])
+erieEvap = as.matrix(jSample[,paste('erieEvap[',1:nMonths,']',sep='')])
+erieRunoff = as.matrix(jSample[,paste('erieRunoff[',1:nMonths,']',sep='')])
+erieNBSC = eriePrecip - erieEvap + erieRunoff;
+erieNBSCMedian = as.vector(apply(as.matrix(erieNBSC), 2, median))
+erieNBSC025 = as.vector(apply(as.matrix(erieNBSC), 2, quantile, probs=c(0.025)))
+erieNBSC975 = as.vector(apply(as.matrix(erieNBSC), 2, quantile, probs=c(0.975)))
+erieNBSCTab = cbind(pTime, erieNBSCMedian, erieNBSC025, erieNBSC975);
+write.table(format(erieNBSCTab, digits=3), paste('erieNBSC_L2SWBM_ALL_',rollPeriod,'_',
+	as.numeric(biasOutflows),
+	as.numeric(incProcError),
+	as.numeric(checkModel),
+	as.numeric(dHPrecDefined),
+'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.csv',sep=''), append=FALSE, quote=FALSE, sep=',', row.names=FALSE, col.names=c('Year','Month','Median','2.5 Percentile', '97.5 Percentile'));
+
+
+ontarioPrecip = as.matrix(jSample[,paste('ontarioPrecip[',1:nMonths,']',sep='')])
+ontarioEvap = as.matrix(jSample[,paste('ontarioEvap[',1:nMonths,']',sep='')])
+ontarioRunoff = as.matrix(jSample[,paste('ontarioRunoff[',1:nMonths,']',sep='')])
+ontarioNBSC = ontarioPrecip - ontarioEvap + ontarioRunoff;
+ontarioNBSCMedian = as.vector(apply(as.matrix(ontarioNBSC), 2, median))
+ontarioNBSC025 = as.vector(apply(as.matrix(ontarioNBSC), 2, quantile, probs=c(0.025)))
+ontarioNBSC975 = as.vector(apply(as.matrix(ontarioNBSC), 2, quantile, probs=c(0.975)))
+ontarioNBSCTab = cbind(pTime, ontarioNBSCMedian, ontarioNBSC025, ontarioNBSC975);
+write.table(format(ontarioNBSCTab, digits=3), paste('ontarioNBSC_L2SWBM_ALL_',rollPeriod,'_',
+	as.numeric(biasOutflows),
+	as.numeric(incProcError),
+	as.numeric(checkModel),
+	as.numeric(dHPrecDefined),
+'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.csv',sep=''), append=FALSE, quote=FALSE, sep=',', row.names=FALSE, col.names=c('Year','Month','Median','2.5 Percentile', '97.5 Percentile'));
+
