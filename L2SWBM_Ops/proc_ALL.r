@@ -879,11 +879,11 @@ if(dHPrecDefined){
 		## PRECISION FOR OBSERVATIONS
 		##############################  
 		
-		ySuperiorRStorePrec	 = 1/(dHPrec*rollPeriod)^2	
-		yMiHuronRStorePrec = 1/(dHPrec*rollPeriod)^2
-		yClairRStorePrec = 1/(dHPrec/0.4*rollPeriod)^2
-		yErieRStorePrec = 1/(dHPrec*rollPeriod)^2
-		yOntarioRStorePrec = 1/(dHPrec*rollPeriod)^2 
+		ySuperiorRStorePrec	 = 1/(dHPrec^2*rollPeriod)	
+		yMiHuronRStorePrec = 1/(dHPrec^2*rollPeriod)
+		yClairRStorePrec = 1/((dHPrec/0.4)^2*rollPeriod)
+		yErieRStorePrec = 1/(dHPrec^2*rollPeriod)
+		yOntarioRStorePrec = 1/(dHPrec^2*rollPeriod) 
 		
 		# Outflow and Diversion precision specification
 		for (h in 1:12){
