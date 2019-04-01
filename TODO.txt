@@ -24,3 +24,8 @@ and identify what other outputs may be useful. These could be:
 Running through the process a few times with what's on hand now will inform me on how to re-code the model 
 to better accommodate those needs.
 
+(LMF) How about developing alternative model that closes the water balance using RNBS instead of components? Not sure if this is too big of a task, but it could be interesting.
+  NBS = Qout - Qin + dH + E
+  Use RNBS as the prior for NBS.
+  This could give us coordinated NBS with uncertainty, and I would think that havinv fewer variables would help to refine the uncertainty.
+  Would this actually also help us with the full model if we ran it in a 2-step process: 1. close the model using NBS, 2. close the model using refined uncertainty in Qout, Qin, and dH based on step 1.
