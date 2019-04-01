@@ -770,7 +770,7 @@ modelCode = paste(modelCode,
 '
 		superiorProcError[i] ~ dnorm(0,0.01)
 		miHuronProcError[i] ~ dnorm(0,0.01)
-		clairProcError[i] ~ dnorm(0,0.01)
+		clairProcError[i] ~ dnorm(0,0.053)
 		erieProcError[i] ~ dnorm(0,0.01)
 		ontarioProcError[i] ~ dnorm(0,0.01)
 ',
