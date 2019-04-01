@@ -16,6 +16,32 @@ How is using GLERL's HMD as the data to form the priors influence the model resu
 
 -- This is a place to experiment. To open up options for prior data sets, I recommend considering the prior as beliefs prior to the analysis, NOT NECESSARILY prior to the analysis *period*. That will make CaPA, GEM, et al. available for prior distribution development.
 
+*************
+
+If we use L2SWBM to get a time series of coordinated values for NBS (and components), the advantage is that we have uncertainty, but how do we use the uncertainty? (DCA)
+
+-- See response to next question
+
+Is it really better than uncertainty provided by an ensemble of RNBS? (LMF)
+
+-- It's going to take some time to figure this out. Drew might have some answers.
+
+If we run L2SWBM on an annual basis, for example, do we then go back in time to reproduce historical data for new coordinated values? Does this end up propagating into changes in how we use coordinated data (e.g. studies for the boards)? In theory, we should be adaptable to using new data as things advance, but are we really set up for this kind of flexibility? (LMF)
+
+-- This sounds like an operational question. I would say though we should update the record every 5-10 years with the L2SWBM.
+
+What does L2SWBM know about residual NBS? (LMF)
+
+-- Nothing.
+
+If we use L2SWBM median value, for example, for a coordinated supply sequence, then what kind of metadata goes into a file header? How do we practically explain how we computed NBS? (LMF)
+
+-- File header for column: "NOAA_GLERL_CIGLR_L2SWBM". Further Metadata: Say, the value was generated from the Large Lake Statistical Water Balance Model (L2SWBM) produced by NOAA-GLERL and CIGLR. https://www.glerl.noaa.gov/data/WaterBalanceModel/
+
+L2SWBM gives us credible intervals for P, R, E, Qin, Qout, and dS, but we need NBS. Is it appropriate to add the 5% P, 5% R, 5% E to get 5% NBS? Maybe not if the 5% P, 5% R, and 5% E are not correlated. (LMF)
+
+-- I really wish we could. But Drew likes to point out and I agree that you need to sum up the sample sequences in order to get the true 2.5% and 97.5% interval. I've updated the dataGen_ALL.r scripts in the GitHub to perform this operation and generate the files
+
 MAY 2018 LAKE ONTARIO RUNOFF:
 
 -- Tim, unfortunately, cannot run ARM as the Canadian streamflow data aren't available past 2017. It's interesting here that the higher precip values that would've kept runoff low did not attract the L2SWBM. 
