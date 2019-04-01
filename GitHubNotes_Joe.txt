@@ -1,0 +1,31 @@
+INSIGHTS INTO RUNNING THE L2SWBM:
+
+Can we adjust the bias of certain components of the model (ie. lake outflow)? (FS)
+
+-- I've made a TODO for the config file on this
+
+How does changing the dH uncertainty impact results? (LMF)
+
+-- Constrains how much total change in storage can be inferred in the model, and possibly constrains the other components as well. Encourages uncertainty reduction and discovery of unique set of results.
+
+Is it better to use all available inputs when running the model or eliminate values or complete data sets if we think they might be too problematic? See the May 2018 Lake Ontario Runoff example. (LMF)
+
+-- I like the idea of the L2SWBM being a data hopper. Drew often brought up the concerns about correlated data sets, but if we're tracking the bias of each input, we're probably going to uncover a wide variety of correlations (e.g. the upper/lower relationship of Canadian/US precip and evap values, for instance). If a data set uses the EXACT same method, pick one or the other (thinking GLM-HMD and Historically Coordinated Precip for example; LBRM and ARM should be OK together).
+
+How is using GLERL's HMD as the data to form the priors influence the model results? Should we be using something else? (LMF)
+
+-- This is a place to experiment. To open up options for prior data sets, I recommend considering the prior as beliefs prior to the analysis, NOT NECESSARILY prior to the analysis *period*. That will make CaPA, GEM, et al. available for prior distribution development.
+
+MAY 2018 LAKE ONTARIO RUNOFF:
+
+-- Tim, unfortunately, cannot run ARM as the Canadian streamflow data aren't available past 2017. It's interesting here that the higher precip values that would've kept runoff low did not attract the L2SWBM. 
+
+DIFFERENCE BETWEEN RESIDUAL NBS AND AHPS COMPONENT NBS
+
+-- Question between Tim and the coordinating committee
+
+***COMPARISON OF COORDINATED OUTFLOWS AND L2SWBM RANGES
+
+Why are the outflow ranges so large for Erie and Ontario?
+
+-- Time for some illustrations in a slide deck...
