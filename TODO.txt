@@ -6,4 +6,21 @@ TODOs (mostly for Joe, but feel free to add for others):
 
 - Edit model code to make options available that could be revealed in the config file (via Jacob)
 
+(JPS) In regards to the coordination process - currently the L2SWBM outputs for use:
+
+- 95% credible intervals for NBS components, component NBS, flows, diversions, and change in storage
+- closure rates, if asked for in the config file
+- simple plots to ensure things ran well
+
+I don't know what all goes on in the coordination process, and therefor I wouldn't know what else to have as outputs from the model. 
+Thus, given these initial outputs above, run through a few draft coordination processes, 
+and identify what other outputs may be useful. These could be:
+
+- cumulative water balance component time series
+- X% credible intervals (other than 95%) to conform to certain practices
+- an idea where input estimates are in the generated credible intervals (a posterior predictive P-Value)
+- and more
+
+Running through the process a few times with what's on hand now will inform me on how to re-code the model 
+to better accommodate those needs.
 
