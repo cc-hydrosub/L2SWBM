@@ -1,10 +1,8 @@
 TODOs (mostly for Joe, but feel free to add for others):
 
-- Tentative: bias adjustment config options
-
 - Version numbering system
 
-- Edit model code to make options available that could be revealed in the config file (via Jacob)
+- Edit model code to make options available that could be revealed in the config file (via Jacob, see below for Version 3 todos)
 
 (JPS) In regards to the coordination process - currently the L2SWBM outputs for use:
 
@@ -29,3 +27,25 @@ to better accommodate those needs.
   Use RNBS as the prior for NBS.
   This could give us coordinated NBS with uncertainty, and I would think that havinv fewer variables would help to refine the uncertainty.
   Would this actually also help us with the full model if we ran it in a 2-step process: 1. close the model using NBS, 2. close the model using refined uncertainty in Qout, Qin, and dH based on step 1.
+  
+(JPS) Letting NBS_C and NBS_R being the component and residual NBS respectfully, if we let NBS_R be the prior for NBS (as you said), and then NBS_C and NBS_R be the input estimates (likelihood), I'd be happy to run that. Then step 2 takes the usual model with informed priors on Qout, Qin, and dH from step 1. This seem correct? I'd need some time to make it...
+  
+  MODEL VERSION 3 TODOS:
+  
+  Calling it Version 3 as it will depart greatly from what we have.
+  
+  - results/* directory, where * = unique name for model run. This would store the config file for the run, the BUGS model code, and model results
+  - config file options:
+  -- data column to develop prior distributions from for each component (precipPriorColumn, evapPriorColumn, etc.)
+  -- (Tentative) combine data sets for prior if 2 or more models are equally judged well
+  -- prior distribution precision modifiers for, like, evaporation, where the historical range within a month may be quite narrow
+  -- configure percentage of monthly mean channel flow and diversion for prior input estimate bias or precision 
+  (depending on how the model is run)
+  -- specify prior process error standard deviation
+  -- custom prior bias standard deviation per NBS component input
+  -- (Tentative) run St. Clair like the other lakes. Currently: dH = NBS + Qin - Qout + error in m^3/s; 
+  Propose: dH = P - E + R + Qin - Qout + error in mm over the lake surface
+  -- prior standard deviation on input estimates (not to be confused with prior *bias* standard deviation for each input)
+  ----> currently derived from a 'vague' gamma distribution
+  -- change model suffix to model name in config file; use as main file name identifier for model products
+  
