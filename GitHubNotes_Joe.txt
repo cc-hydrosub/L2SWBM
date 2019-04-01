@@ -24,7 +24,7 @@ If we use L2SWBM to get a time series of coordinated values for NBS (and compone
 
 Is it really better than uncertainty provided by an ensemble of RNBS? (LMF)
 
--- It's going to take some time to figure this out. Drew might have some answers.
+-- It's going to take some time to figure this out. Drew might have some answers. On the whole, the NBS values produced from the L2SWBM are from consideration of the entire water balance throughout the lake system, and at a good rate close the water balance. The model considers historical data and seasonal patterns for the individual NBS components.
 
 If we run L2SWBM on an annual basis, for example, do we then go back in time to reproduce historical data for new coordinated values? Does this end up propagating into changes in how we use coordinated data (e.g. studies for the boards)? In theory, we should be adaptable to using new data as things advance, but are we really set up for this kind of flexibility? (LMF)
 
