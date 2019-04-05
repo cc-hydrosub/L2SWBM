@@ -3,7 +3,7 @@ TODOs (mostly for Joe, but feel free to add for others):
 - Version numbering system
 
 - Edit model code to make options available that could be revealed in the config file (via Jacob, see below for Version 3 todos)
-
+  
 (JPS) In regards to the coordination process - currently the L2SWBM outputs for use:
 
 - 95% credible intervals for NBS components, component NBS, flows, diversions, and change in storage
@@ -22,7 +22,7 @@ and identify what other outputs may be useful. These could be:
 Running through the process a few times with what's on hand now will inform me on how to re-code the model 
 to better accommodate those needs.
 
-(LMF) How about developing alternative model that closes the water balance using RNBS instead of components? Not sure if this is too big of a task, but it could be interesting.
+(LMF) How about developing alternative model that closes the water balance using RNBS instead of components? Not sure if this is too big of a task, but it could be interesting.  (JKB: I like this idea, but I think we just mean NBS, rather than RNBS... NBS used as input could be both the Residual and various CAN/US component methods... reading below I'm not sure what exactly everyone's envisioning but maybe we're all on the same page)
   NBS = Qout - Qin + dH + E
   Use RNBS as the prior for NBS.
   This could give us coordinated NBS with uncertainty, and I would think that havinv fewer variables would help to refine the uncertainty.
@@ -37,6 +37,7 @@ to better accommodate those needs.
   - results/* directory, where * = unique name for model run. This would store the config file for the run, the BUGS model code, and model results
   - config file options:
   -- data column to develop prior distributions from for each component (precipPriorColumn, evapPriorColumn, etc.)
+    (JKB:  Is this what would allow us to use uncertainty estimates from Neff and Nicholas (2004), Dimarchi et al (2010), etc. for the components, similar to what is possible now with outflows?  And what about for change in storage estimates, can we provide uncertainty priors for this as well?)
   -- (Tentative) combine data sets for prior if 2 or more models are equally judged well
   -- prior distribution precision modifiers for, like, evaporation, where the historical range within a month may be quite narrow
   -- configure percentage of monthly mean channel flow and diversion for prior input estimate bias or precision 
@@ -45,7 +46,11 @@ to better accommodate those needs.
   -- custom prior bias standard deviation per NBS component input
   -- (Tentative) run St. Clair like the other lakes. Currently: dH = NBS + Qin - Qout + error in m^3/s; 
   Propose: dH = P - E + R + Qin - Qout + error in mm over the lake surface
+      - (JKB:  Agreed, so long as either option is possible (i.e., run as either NBS or run as P - E + R... ) with the option selected in config file... also, could this same functionality be applied to the other lakes to allow running the model with NBS only?  i.e., LMF suggestion above)
   -- prior standard deviation on input estimates (not to be confused with prior *bias* standard deviation for each input)
   ----> currently derived from a 'vague' gamma distribution
   -- change model suffix to model name in config file; use as main file name identifier for model products
   
+MODEL VERSION 4 (i.e., the long-term wishlist) TODOS:
+- extend the model downstream on the St. Lawrence past Montreal... this would be beneficial for a number of reasons, we'd have at least one additional St. Lawrence River flow estimate to complement Moses-Saunders (i.e., from the Beauharnois/Les Cedres plants) and additionally we could bring in the Ottawa River and local tribs to close the water balance around the Montreal achipelago
+
