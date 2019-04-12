@@ -77,4 +77,13 @@ MODEL VERSION 4 (i.e., the long-term wishlist) TODOS:
      of reasons, we'd have at least one additional St. Lawrence River flow estimate to complement Moses-Saunders 
      (i.e., from the Beauharnois/Les Cedres plants) and additionally we could bring in the Ottawa River and local 
      tribs to close the water balance around the Montreal achipelago
+   - (JPS) Hmmm:
+   -- Ontario Outflow through the St. Lawrence = Cornwall readings - Runoff between 
+      the Ontario/St. Lawrence basin boundary and Cornwall
+   -- Flow through Contrecoeur? = Cornwall readings + Ottawa River + Runoff
+   -- And then: Lac St. Pierre Level = Contrecoeur + Runoff - Port Saint-François 
+   --- Something like that, with the point being I'd like a few checkpoints/nodes in the network around there. 
+       What obs do we have around these lines (evap and precip too, if we so wish)?
+       
+       
 
