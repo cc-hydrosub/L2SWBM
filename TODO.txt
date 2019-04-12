@@ -51,6 +51,9 @@ Calling it Version 3 as it will depart greatly from what we have.
     (JKB:  Is this what would allow us to use uncertainty estimates from Neff and Nicholas (2004), Dimarchi et al (2010), 
     etc. for the components, similar to what is possible now with outflows?  And what about for change in storage 
     estimates, can we provide uncertainty priors for this as well?)
+    (JPS: Nope. This would merely allow you to specify what dataset [from those data the WBM runs with] 
+    to use for a prior. Default would be 3 for the NOAA-GLERL and Coordinated Flow estimates. Uncertainty priors for 
+    flows are already featured with the "Define dH Uncertainty" and "dH Uncertainty in mm" options)
   -- (Tentative) combine data sets for prior if 2 or more models are equally judged well
   -- prior distribution precision modifiers for, like, evaporation, where the historical range within a month 
      may be quite narrow
@@ -60,9 +63,10 @@ Calling it Version 3 as it will depart greatly from what we have.
   -- custom prior mean bias and standard deviation per NBS component input 
   -- (Tentative) run St. Clair like the other lakes. Currently: dH = NBS + Qin - Qout + error in m^3/s; 
   Propose: dH = P - E + R + Qin - Qout + error in mm over the lake surface
-      - (JKB:  Agreed, so long as either option is possible (i.e., run as either NBS or run as P - E + R... ) with 
+      - (JKB: Agreed, so long as either option is possible (i.e., run as either NBS or run as P - E + R... ) with 
         the option selected in config file... also, could this same functionality be applied to the other lakes to 
         allow running the model with NBS only?  i.e., LMF suggestion above)
+      - (JPS: Sure)
   -- prior standard deviation on input estimates (not to be confused with prior *bias* standard deviation for each input)
   ----> currently derived from a 'vague' gamma distribution
   -- change model suffix to model name in config file; use as main file name identifier for model products
