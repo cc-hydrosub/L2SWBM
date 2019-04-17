@@ -9,6 +9,8 @@ superiorPrecip_A = getSubset(superiorPrecip, startAnalysisYear, startAnalysisMon
 superiorEvap_A = getSubset(superiorEvap, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 superiorRunoff_A = getSubset(superiorRunoff, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
+superiorNBS_A = getSubset(superiorNBS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+
 miHuronDS_A = getSubset(miHuronDS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
 miHuronOutflow_A = getSubset(miHuronOutflow, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
@@ -18,7 +20,13 @@ miHuronPrecip_A = getSubset(miHuronPrecip, startAnalysisYear, startAnalysisMonth
 miHuronEvap_A = getSubset(miHuronEvap, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 miHuronRunoff_A = getSubset(miHuronRunoff, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
+miHuronNBS_A = getSubset(miHuronNBS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+
 clairDS_A = getSubset(clairDS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+
+clairPrecip_A = getSubset(clairPrecip, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+clairEvap_A = getSubset(clairEvap, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+clairRunoff_A = getSubset(clairRunoff, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
 clairNBS_A = getSubset(clairNBS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
@@ -36,6 +44,8 @@ eriePrecip_A = getSubset(eriePrecip, startAnalysisYear, startAnalysisMonth, endA
 erieEvap_A = getSubset(erieEvap, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 erieRunoff_A = getSubset(erieRunoff, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
+erieNBS_A = getSubset(erieNBS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+
 ontarioDS_A = getSubset(ontarioDS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
 ontarioOutflow_A = getSubset(ontarioOutflow, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
@@ -43,6 +53,8 @@ ontarioOutflow_A = getSubset(ontarioOutflow, startAnalysisYear, startAnalysisMon
 ontarioPrecip_A = getSubset(ontarioPrecip, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 ontarioEvap_A = getSubset(ontarioEvap, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 ontarioRunoff_A = getSubset(ontarioRunoff, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
+
+ontarioNBS_A = getSubset(ontarioNBS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
 ySuperiorOutflow1 = superiorOutflow_A[,4]
 ySuperiorOutflow2 = superiorOutflow_A[,3]
@@ -96,12 +108,15 @@ if(endMo > posteriorEndMonth){
 
 yearRange = (startAnalysisYear+(decade*10)):(startAnalysisYear+((decade+1)*10)-1);
 compLimits = c(-50, 500)
+nbsLimits = c(-200, 650)
 flowLimits = c(-25,7000)
 flowLimitsLabs = seq(0,10000,1000)
 flowLimitsTicks = seq(0,10000,1000)
 diversionLimits = c(-25,600)
 compLimitsLabs = seq(0,600,150)
 compLimitsTicks = seq(0,600,150)
+nbsLimitsLabs = seq(-200,650,150)
+nbsLimitsTicks = seq(-200,650,150)
 diversionLimitsLabs = seq(0,500,100)
 diversionLimitsTicks = seq(0,500,100)
 storeLimits = c(-650,650)
@@ -110,6 +125,7 @@ clairFlowLimits = c(3000,8000);
 erieOntFlowLimits = c(0,1500);
 clairDStoreLimits = c(-300,300);
 clairNBSLimits = c(-1000,1500);
+clairRunoffLimits = c(0,2600);
 
 #colorVector = rainbow(10, v=0.5);
 
@@ -129,8 +145,8 @@ colorVector = c(
 
 # superior
 
-pdf(paste('superiorTS_Preview_d',decade,'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(6,1))
+pdf(paste('superiorTS_Preview_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+par(mfrow=c(7,1))
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
@@ -221,11 +237,41 @@ legend(
 	ncol = 5
 );
 
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(4, at=nbsLimitsLabs, cex.lab = 0.7); 
+axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(superiorNBS_A)){
+		lines(c(i, i+1), c(superiorNBS_A[i,n],superiorNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}      
+
+
+superiorNBSLegend = c('L2SWBM', superiorNBSSrc);
+superiorNBSLegendColors = c('gray60', colorVector[1:length(superiorNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = superiorNBSLegend,
+	col = superiorNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(superiorNBSSrc))),
+	lwd = c(0, rep(1.5, length(superiorNBSSrc))),
+	pch = c(15, rep(NA, length(superiorNBSSrc))),
+	ncol = 5
+);
+
+
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(0,5000)); 
 box()
-axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
-axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+axis(2, at=flowLimitsLabs, cex.lab = 0.7); 
+axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
@@ -255,9 +301,9 @@ legend(
 plot(ySuperiorDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(2, at=diversionLimitsLabs, cex.lab = 0.7); 
-axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=diversionLimitsLabs, cex.lab = 0.7); 
 axis(4, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 mtext('D (cms)', side = 2, line = 2.5, cex = 0.8)
 
@@ -268,8 +314,8 @@ for(i in startMo:endMo){
 plot(ySuperiorDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(4, cex.lab = 0.7); 
-axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(2, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
@@ -284,8 +330,8 @@ dev.off();
 
 ### miHuron
 
-pdf(paste('miHuronTS_Preview_d',decade,'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(6,1))
+pdf(paste('miHuronTS_Preview_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+par(mfrow=c(7,1))
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
@@ -377,11 +423,43 @@ legend(
 	ncol = 5
 );
 
+
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(4, at=nbsLimitsLabs, cex.lab = 0.7); 
+axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(miHuronNBS_A)){
+		lines(c(i, i+1), c(miHuronNBS_A[i,n],miHuronNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}      
+
+
+miHuronNBSLegend = c('L2SWBM', miHuronNBSSrc);
+miHuronNBSLegendColors = c('gray60', colorVector[1:length(miHuronNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = miHuronNBSLegend,
+	col = miHuronNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(miHuronNBSSrc))),
+	lwd = c(0, rep(1.5, length(miHuronNBSSrc))),
+	pch = c(15, rep(NA, length(miHuronNBSSrc))),
+	ncol = 5
+);
+
+
+
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(3000,8000)); 
 box()
-axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
-axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+axis(2, at=flowLimitsLabs, cex.lab = 0.7); 
+axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
@@ -410,9 +488,9 @@ legend(
 plot(yMiHuronDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(2, at=diversionLimitsLabs, cex.lab = 0.7); 
-axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=diversionLimitsLabs, cex.lab = 0.7); 
 axis(4, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 mtext('D (cms)', side = 2, line = 2.5, cex = 0.8)
 
@@ -423,8 +501,8 @@ for(i in startMo:endMo){
 plot(yMiHuronDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(4, cex.lab = 0.7); 
-axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(2, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
@@ -439,16 +517,104 @@ dev.off();
 
 ### Clair
 
-pdf(paste('clairTS_Preview_d',decade,'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(3,1))
+pdf(paste('clairTS_Preview_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+par(mfrow=c(6,1))
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
-plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = clairNBSLimits); 
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
+box()
+axis(2, at=compLimitsLabs, cex.lab = 0.7); 
+axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(clairPrecip_A)){
+		lines(c(i, i+1), c(clairPrecip_A[i,n],clairPrecip_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}        
+
+clairPrecipLegend = c('L2SWBM', clairPrecipSrc);
+clairPrecipLegendColors = c('gray60', colorVector[1:length(clairPrecipSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = clairPrecipLegend,
+	col = clairPrecipLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(clairPrecipSrc))),
+	lwd = c(0, rep(1.5, length(clairPrecipSrc))),
+	pch = c(15, rep(NA, length(clairPrecipSrc))),
+	ncol = 5
+);
+
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
+box()
+axis(4, at=compLimitsLabs, cex.lab = 0.7); 
+axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(clairEvap_A)){
+		lines(c(i, i+1), c(clairEvap_A[i,n],clairEvap_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}    
+
+
+clairEvapLegend = c('L2SWBM', clairEvapSrc);
+clairEvapLegendColors = c('gray60', colorVector[1:length(clairEvapSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = clairEvapLegend,
+	col = clairEvapLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(clairEvapSrc))),
+	lwd = c(0, rep(1.5, length(clairEvapSrc))),
+	pch = c(15, rep(NA, length(clairEvapSrc))),
+	ncol = 5
+);
+    
+
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = clairRunoffLimits); 
 box()
 axis(2, cex.lab = 0.7); 
 axis(2, labels=FALSE, cex.lab = 0.7); 
 axis(4, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(clairRunoff_A)){
+		lines(c(i, i+1), c(clairRunoff_A[i,n],clairRunoff_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}      
+
+
+clairRunoffLegend = c('L2SWBM', clairRunoffSrc);
+clairRunoffLegendColors = c('gray60', colorVector[1:length(clairRunoffSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = clairRunoffLegend,
+	col = clairRunoffLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(clairRunoffSrc))),
+	lwd = c(0, rep(1.5, length(clairRunoffSrc))),
+	pch = c(15, rep(NA, length(clairRunoffSrc))),
+	ncol = 5
+);
+
+
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = clairNBSLimits); 
+box()
+axis(4, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("NBS (cms)"), side = 2, line = 2.5, cex=0.8); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
@@ -474,9 +640,9 @@ legend(
 
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = clairFlowLimits); 
 box()
-axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
-axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+axis(2, at=flowLimitsLabs, cex.lab = 0.7); 
+axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
@@ -505,8 +671,8 @@ legend(
 plot(c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(2, cex.lab = 0.7); 
-axis(4, labels=FALSE, cex.lab = 0.7); 
+axis(4, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (cms)')), side = 2, line = 2.5, cex = 0.8)
@@ -521,8 +687,8 @@ dev.off();
 
 ### erie
 
-pdf(paste('erieTS_Preview_d',decade,'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(6,1))
+pdf(paste('erieTS_Preview_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+par(mfrow=c(7,1))
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
@@ -613,12 +779,42 @@ legend(
 	ncol = 5
 );    
 
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(4, at=nbsLimitsLabs, cex.lab = 0.7); 
+axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(erieNBS_A)){
+		lines(c(i, i+1), c(erieNBS_A[i,n],erieNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}      
+
+
+erieNBSLegend = c('L2SWBM', erieNBSSrc);
+erieNBSLegendColors = c('gray60', colorVector[1:length(erieNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = erieNBSLegend,
+	col = erieNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(erieNBSSrc))),
+	lwd = c(0, rep(1.5, length(erieNBSSrc))),
+	pch = c(15, rep(NA, length(erieNBSSrc))),
+	ncol = 5
+);
+
+
 
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(3000,9000)); 
 box()
-axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
-axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+axis(2, at=flowLimitsLabs, cex.lab = 0.7); 
+axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
@@ -645,9 +841,9 @@ legend(
 plot(yErieDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(2, at=diversionLimitsLabs, cex.lab = 0.7); 
-axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=diversionLimitsLabs, cex.lab = 0.7); 
 axis(4, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 mtext('D (cms)', side = 2, line = 2.5, cex = 0.8)
 
@@ -658,8 +854,8 @@ for(i in startMo:endMo){
 plot(yErieDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(4, cex.lab = 0.7); 
-axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(2, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
@@ -674,8 +870,8 @@ dev.off();
 
 ### ontario
 
-pdf(paste('ontarioTS_Preview_d',decade,'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(5,1))
+pdf(paste('ontarioTS_Preview_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+par(mfrow=c(6,1))
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
@@ -763,12 +959,40 @@ legend(
 	ncol = 5
 );
 
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(4, at=nbsLimitsLabs, cex.lab = 0.7); 
+axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	for(n in 3:ncol(ontarioNBS_A)){
+		lines(c(i, i+1), c(ontarioNBS_A[i,n],ontarioNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}      
+
+
+ontarioNBSLegend = c('L2SWBM', ontarioNBSSrc);
+ontarioNBSLegendColors = c('gray60', colorVector[1:length(ontarioNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = ontarioNBSLegend,
+	col = ontarioNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(ontarioNBSSrc))),
+	lwd = c(0, rep(1.5, length(ontarioNBSSrc))),
+	pch = c(15, rep(NA, length(ontarioNBSSrc))),
+	ncol = 5
+);
 
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(4000,11000)); 
 box()
-axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
-axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+axis(2, at=flowLimitsLabs, cex.lab = 0.7); 
+axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
@@ -796,8 +1020,8 @@ legend(
 plot(c(0),c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
-axis(2, cex.lab = 0.7); 
-axis(4, labels=FALSE, cex.lab = 0.7); 
+axis(4, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)

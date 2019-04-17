@@ -3,7 +3,7 @@
 #Stage Fall Discharge Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 #Coordinated Data Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 # Created by Heather Lucier
-# Last modified 2018-02-15 13:19:54 by hml
+# Last modified 2019-03-20 13:08:51 by jkp
 #
 "Year","Month","Niagara+Welland(SFD+ADVM)","Niagara+Welland (Coordinated)"
 1900,1,5381,5381
@@ -1422,5 +1422,18 @@
 2017,10,6780,NA
 2017,11,6950,NA
 2017,12,6940,NA
-2018,1,NA,NA
-2018,2,NA,NA
+2018,1,6480,NA
+2018,2,6690,NA
+2018,3,7070,NA
+2018,4,7410,NA
+2018,5,7580,NA
+2018,6,7450,NA
+2018,7,7200,NA
+2018,8,7110,NA
+2018,9,6850,NA
+2018,10,6920,NA
+2018,11,7130,NA
+2018,12,7080,NA
+2019,1,7130,NA
+2019,2,7018,NA
+2019,3,NA,NA

@@ -168,9 +168,4 @@ cRates = rbind(
 	c(superiorRStore_5YClosureRate, miHuronRStore_5YClosureRate, erieRStore_5YClosureRate, ontarioRStore_5YClosureRate, clairRStore_5YClosureRate)
 );
 
-write.table(cRates, paste('L2SWBM_ALL_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'_Closure.csv', sep=''), sep=',', quote=FALSE, row.names=c('Monthly', '1-Year', '5-Year'), col.names=c(',Superior', 'MI-Huron', 'Erie', 'Ontario', 'St. Clair'));
+write.table(cRates, paste(modelName,'_Closure.csv', sep=''), sep=',', quote=FALSE, row.names=c('Monthly', '1-Year', '5-Year'), col.names=c(',Superior', 'MI-Huron', 'Erie', 'Ontario', 'St. Clair'));

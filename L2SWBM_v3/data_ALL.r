@@ -18,6 +18,13 @@ if(ncol(superiorOutflow) >= 3){
 }
 
 superiorDiversion = read.csv('data/LongLacOgokiMonthlyMeanFlows.csv', TRUE, skip=6);
+superiorDiversion_Prior = superiorDiversion;
+superiorDiversion = superiorDiversion[,c(1,2,(3:ncol(superiorDiversion))*diversionInput)]
+superiorDiversionSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(superiorDiversion) >= 3){
+	colnames(superiorDiversion) = c('Year', 'Month', colnames(superiorDiversion)[3:length(colnames(superiorDiversion))])
+	superiorDiversionSrc = colnames(superiorDiversion)[3:length(colnames(superiorDiversion))]
+}
 
 superiorPrecip = read.csv('data/SUP_lake_Prec.csv', TRUE, na.strings='-9999.9', skip=4);
 superiorPrecip[superiorPrecip < 0] = NA;
@@ -51,8 +58,13 @@ if(ncol(superiorRunoff) >= 3){
 
 superiorNBS = read.csv('data/SUP_lake_NBS.csv', TRUE, na.strings='-9999.9', skip=4);
 superiorNBS[superiorNBS < -5000] = NA
-colnames(superiorNBS) = c('Year', 'Month', colnames(superiorNBS)[3:length(colnames(superiorNBS))])
-superiorNBSSrc = colnames(superiorNBS)[3:length(colnames(superiorNBS))]
+superiorNBS_Prior = superiorNBS;
+superiorNBS = superiorNBS[,c(1,2,(3:ncol(superiorNBS))*nbsInput)]
+superiorNBSSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(superiorNBS) >= 3){
+	colnames(superiorNBS) = c('Year', 'Month', colnames(superiorNBS)[3:length(colnames(superiorNBS))])
+	superiorNBSSrc = colnames(superiorNBS)[3:length(colnames(superiorNBS))]
+}
 
 ### MI-HURON
 
@@ -73,6 +85,13 @@ if(ncol(miHuronOutflow) >= 3){
 
 miHuronDiversion = read.csv('data/ChicagoMonthlyMeanFlows.csv', TRUE, skip=6);
 miHuronDiversion[is.na(miHuronDiversion[,3]),3] = 91;
+miHuronDiversion_Prior = miHuronDiversion;
+miHuronDiversion = miHuronDiversion[,c(1,2,(3:ncol(miHuronDiversion))*diversionInput)]
+miHuronDiversionSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(miHuronDiversion) >= 3){
+	colnames(miHuronDiversion) = c('Year', 'Month', colnames(miHuronDiversion)[3:length(colnames(miHuronDiversion))])
+	miHuronDiversionSrc = colnames(miHuronDiversion)[3:length(colnames(miHuronDiversion))]
+}
 
 miHuronPrecip = read.csv('data/MHG_lake_Prec.csv', TRUE, na.strings='-9999.9', skip=4);
 miHuronPrecip[miHuronPrecip < 0] = NA;
@@ -106,9 +125,13 @@ if(ncol(miHuronRunoff) >= 3){
 
 miHuronNBS = read.csv('data/MHG_lake_NBS.csv', TRUE, na.strings='-9999.9', skip=4);
 miHuronNBS[miHuronNBS < -5000] = NA
-colnames(miHuronNBS) = c('Year', 'Month', colnames(miHuronNBS)[3:length(colnames(miHuronNBS))])
-miHuronNBSSrc = colnames(miHuronNBS)[3:length(colnames(miHuronNBS))]
-
+miHuronNBS_Prior = miHuronNBS;
+miHuronNBS = miHuronNBS[,c(1,2,(3:ncol(miHuronNBS))*nbsInput)]
+miHuronNBSSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(miHuronNBS) >= 3){
+	colnames(miHuronNBS) = c('Year', 'Month', colnames(miHuronNBS)[3:length(colnames(miHuronNBS))])
+	miHuronNBSSrc = colnames(miHuronNBS)[3:length(colnames(miHuronNBS))]
+}
 ### ST. CLAIR
 
 clairBOM = read.csv('data/STC_BOM_MM.csv', TRUE, skip=6);
@@ -117,23 +140,58 @@ clairDS = cbind(
 	(clairBOM[-1,3] - clairBOM[-(nrow(clairBOM)),3])*1000
 );
 
-clairDS_CMS = NULL;
-for(i in 1:nrow(clairDS)){
-	if(clairDS[i,1] %% 4 == 0){
-		clairDS_CMS = c(
-			clairDS_CMS,
-			clairDS[i,3]/secondsInADay/daysInMonthsWithLeap[clairDS[i,2]]*stcArea/1000
-		);
+if(clairCMS & !clairComponentWBM){
+	clairDS_CMS = NULL;
+	for(i in 1:nrow(clairDS)){
+		if(clairDS[i,1] %% 4 == 0){
+			clairDS_CMS = c(
+				clairDS_CMS,
+				clairDS[i,3]/secondsInADay/daysInMonthsWithLeap[clairDS[i,2]]*stcArea/1000
+			);
+		}
+		else{
+			clairDS_CMS = c(
+				clairDS_CMS,
+				clairDS[i,3]/secondsInADay/daysInMonths[clairDS[i,2]]*stcArea/1000
+			);
+		}
 	}
-	else{
-		clairDS_CMS = c(
-			clairDS_CMS,
-			clairDS[i,3]/secondsInADay/daysInMonths[clairDS[i,2]]*stcArea/1000
-		);
-	}
+
+	clairDS[,3] = clairDS_CMS;
 }
 
-clairDS[,3] = clairDS_CMS;
+clairNBS = read.csv('data/STC_lake_NBS.csv', TRUE, na.strings='-9999.9', skip=4);
+clairNBS[clairNBS < -5000] = NA
+
+if(clairCMS & !clairComponentWBM){
+	clairNBS_CMS = NULL;
+
+	for(i in 1:nrow(clairNBS)){
+		if(clairNBS[i,1] %% 4 == 0){
+			clairNBS_CMS = rbind(
+				clairNBS_CMS,
+				clairNBS[i,3:ncol(clairNBS)]/secondsInADay/daysInMonthsWithLeap[clairNBS[i,2]]*stcArea/1000
+			);
+		}
+		else{
+			clairNBS_CMS = rbind(
+				clairNBS_CMS,
+				clairNBS[i,3:ncol(clairNBS)]/secondsInADay/daysInMonths[clairNBS[i,2]]*stcArea/1000
+			);
+		}
+	}
+
+	clairNBS[,3:ncol(clairNBS)] = clairNBS_CMS;
+}
+
+clairNBS_Prior = clairNBS;
+clairNBS = clairNBS[,c(1,2,(3:ncol(clairNBS))*nbsInput)]
+
+clairNBSSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(clairNBS) >= 3){
+	colnames(clairNBS) = c('Year', 'Month', colnames(clairNBS)[3:length(colnames(clairNBS))])
+	clairNBSSrc = colnames(clairNBS)[3:length(colnames(clairNBS))]
+}
 
 clairOutflow = read.csv('data/DetroitMonthlyMeanFlows.csv', TRUE, skip=8);
 clairOutflow_Prior = clairOutflow;
@@ -144,30 +202,35 @@ if(ncol(clairOutflow) >= 3){
 	clairOutflowSrc = colnames(clairOutflow)[3:length(colnames(clairOutflow))]
 }
 
-clairNBS = read.csv('data/STC_lake_NBS.csv', TRUE, na.strings='-9999.9', skip=4);
-clairNBS[clairNBS < -5000] = NA
-clairNBS = clairNBS[,c(1,2,(3:ncol(clairNBS))*c(1,1,1,1,1,0,1))]
-
-clairNBS_CMS = NULL;
-
-for(i in 1:nrow(clairNBS)){
-	if(clairNBS[i,1] %% 4 == 0){
-		clairNBS_CMS = rbind(
-			clairNBS_CMS,
-			clairNBS[i,3:ncol(clairNBS)]/secondsInADay/daysInMonthsWithLeap[clairNBS[i,2]]*stcArea/1000
-		);
-	}
-	else{
-		clairNBS_CMS = rbind(
-			clairNBS_CMS,
-			clairNBS[i,3:ncol(clairNBS)]/secondsInADay/daysInMonths[clairNBS[i,2]]*stcArea/1000
-		);
-	}
+clairPrecip = read.csv('data/STC_lake_Prec.csv', TRUE, na.strings='-9999.9', skip=4);
+clairPrecip[clairPrecip < 0] = NA;
+clairPrecip_Prior = clairPrecip
+clairPrecip = clairPrecip[,c(1,2,(3:ncol(clairPrecip))*precipInput)]
+clairPrecipSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(clairPrecip) >= 3){
+	colnames(clairPrecip) = c('Year', 'Month', colnames(clairPrecip)[3:length(colnames(clairPrecip))])
+	clairPrecipSrc = colnames(clairPrecip)[3:length(colnames(clairPrecip))]
 }
 
-clairNBS[,3:ncol(clairNBS)] = clairNBS_CMS;
-colnames(clairNBS) = c('Year', 'Month', colnames(clairNBS)[3:length(colnames(clairNBS))])
-clairNBSSrc = colnames(clairNBS)[3:length(colnames(clairNBS))]
+clairEvap = read.csv('data/STC_lake_Evap.csv', TRUE, na.strings='-9999.9', skip=4);
+clairEvap[clairEvap < -5000] = NA
+clairEvap_Prior = clairEvap
+clairEvap = clairEvap[,c(1,2,(3:ncol(clairEvap))*evapInput)]
+clairEvapSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(clairEvap) >= 3){
+	colnames(clairEvap) = c('Year', 'Month', colnames(clairEvap)[3:length(colnames(clairEvap))])
+	clairEvapSrc = colnames(clairEvap)[3:length(colnames(clairEvap))]
+}
+
+clairRunoff = read.csv('data/STC_lake_Runoff.csv', TRUE, na.strings='None', skip=4);
+clairRunoff[clairRunoff < 0] = NA
+clairRunoff_Prior = clairRunoff
+clairRunoff = clairRunoff[,c(1,2,(3:ncol(clairRunoff))*runoffInput)]
+clairRunoffSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(clairRunoff) >= 3){
+	colnames(clairRunoff) = c('Year', 'Month', colnames(clairRunoff)[3:length(colnames(clairRunoff))])
+	clairRunoffSrc = colnames(clairRunoff)[3:length(colnames(clairRunoff))]
+}
 
 ### ERIE
 
@@ -187,7 +250,13 @@ if(ncol(erieOutflow) >= 3){
 }
 
 erieDiversion = read.csv('data/WellandMonthlyMeanFlows.csv', TRUE, skip=6);
-
+erieDiversion_Prior = erieDiversion;
+erieDiversion = erieDiversion[,c(1,2,(3:ncol(erieDiversion))*diversionInput)]
+erieDiversionSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(erieDiversion) >= 3){
+	colnames(erieDiversion) = c('Year', 'Month', colnames(erieDiversion)[3:length(colnames(erieDiversion))])
+	erieDiversionSrc = colnames(erieDiversion)[3:length(colnames(erieDiversion))]
+}
 #erieOutflow[,3] = erieOutflow[,3]-erieDiversion[,3]
 
 eriePrecip = read.csv('data/ERI_lake_Prec.csv', TRUE, na.strings='-9999.9', skip=4);
@@ -222,8 +291,13 @@ if(ncol(erieRunoff) >= 3){
 
 erieNBS = read.csv('data/ERI_lake_NBS.csv', TRUE, na.strings='-9999.9', skip=4);
 erieNBS[erieNBS < -5000] = NA
-colnames(erieNBS) = c('Year', 'Month', colnames(erieNBS)[3:length(colnames(erieNBS))])
-erieNBSSrc = colnames(erieNBS)[3:length(colnames(erieNBS))]
+erieNBS_Prior = erieNBS;
+erieNBS = erieNBS[,c(1,2,(3:ncol(erieNBS))*nbsInput)]
+erieNBSSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(erieNBS) >= 3){
+	colnames(erieNBS) = c('Year', 'Month', colnames(erieNBS)[3:length(colnames(erieNBS))])
+	erieNBSSrc = colnames(erieNBS)[3:length(colnames(erieNBS))]
+}
 
 ### ONTARIO
 
@@ -274,7 +348,10 @@ if(ncol(ontarioRunoff) >= 3){
 
 ontarioNBS = read.csv('data/ONT_lake_NBS.csv', TRUE, na.strings='-9999.9', skip=4);
 ontarioNBS[ontarioNBS < -5000] = NA
-colnames(ontarioNBS) = c('Year', 'Month', colnames(ontarioNBS)[3:length(colnames(ontarioNBS))])
-ontarioNBSSrc = colnames(ontarioNBS)[3:length(colnames(ontarioNBS))]
-
-
+ontarioNBS_Prior = ontarioNBS;
+ontarioNBS = ontarioNBS[,c(1,2,(3:ncol(ontarioNBS))*nbsInput)]
+ontarioNBSSrc = c("***MODEL RAN WITHOUT OBSERVATIONS***")
+if(ncol(ontarioNBS) >= 3){
+	colnames(ontarioNBS) = c('Year', 'Month', colnames(ontarioNBS)[3:length(colnames(ontarioNBS))])
+	ontarioNBSSrc = colnames(ontarioNBS)[3:length(colnames(ontarioNBS))]
+}

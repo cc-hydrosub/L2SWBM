@@ -4,7 +4,7 @@
 #Stage Fall Discharge Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 #Coordinated Data Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 # Created by Heather Lucier
-# Last modified 2018-02-15 13:19:53 by hml
+# Last modified 2019-03-20 13:08:50 by jkp
 #
 "Year","Month","St.Marys (IGS)","St. Marys (Flow Accounting)","St. Marys (Coordinated)"
 1900,1,NA,2240,2240
@@ -1421,7 +1421,20 @@
 2017,8,3380,3300,NA
 2017,9,2870,2800,NA
 2017,10,3126,3100,NA
-2017,11,3084,3130,NA
-2017,12,2279,2510,NA
-2018,1,1866,2080,NA
-2018,2,1968,NA,NA
+2017,11,3084,3080,NA
+2017,12,2279,2240,NA
+2018,1,1866,2060,NA
+2018,2,1904,2100,NA
+2018,3,2352,2470,NA
+2018,4,2483,2270,NA
+2018,5,2521,2320,NA
+2018,6,2713,2470,NA
+2018,7,2723,2510,NA
+2018,8,2866,2770,NA
+2018,9,2692,2620,NA
+2018,10,2663,2700,NA
+2018,11,2754,2970,NA
+2018,12,2226,2230,NA
+2019,1,2248,2370,NA
+2019,2,2478,2510,NA
+2019,3,2431,NA,NA

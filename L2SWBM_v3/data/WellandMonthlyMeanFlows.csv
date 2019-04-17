@@ -1,10 +1,10 @@
-# Great Lakes Diversion Flows,,
-# Units: cms,,
-# Diversion flows copied from H&H/GL_H&HData & Reports/Flows/GLDiversions,1900-present.xls on 8/3/2015,
-# Coordinated through 2008,,
-#missing data filled in,,
-#,,
-Year,Month,Monthly Mean
+# Great Lakes Diversion Flows
+# Units: cms
+# Diversion flows copied from H&H/GL_H&HData & Reports/Flows/GLDiversions,1900-present.xls on 8/3/2015
+# Coordinated through 2008
+#missing data filled in
+#
+"Year","Month","Monthly Mean"
 1900,1,31
 1900,2,31
 1900,3,31
@@ -1421,19 +1421,19 @@ Year,Month,Monthly Mean
 2017,10,170
 2017,11,150
 2017,12,140
-2018,1,NA
-2018,2,NA
-2018,3,NA
-2018,4,NA
-2018,5,NA
-2018,6,NA
-2018,7,NA
-2018,8,NA
-2018,9,NA
-2018,10,NA
-2018,11,NA
-2018,12,NA
-2019,1,NA
+2018,1,160
+2018,2,150
+2018,3,170
+2018,4,170
+2018,5,180
+2018,6,180
+2018,7,150
+2018,8,180
+2018,9,190
+2018,10,160
+2018,11,140
+2018,12,160
+2019,1,150
 2019,2,NA
 2019,3,NA
 2019,4,NA

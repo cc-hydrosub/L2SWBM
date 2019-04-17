@@ -29,6 +29,7 @@ flowLimitsTicks = seq(0,10000,1000)
 diversionLimits = c(-25,600)
 compLimitsLabs = seq(0,600,150)
 compLimitsTicks = seq(0,600,150)
+nbsLimits = c(-100,800)
 diversionLimitsLabs = seq(0,500,100)
 diversionLimitsTicks = seq(0,500,100)
 storeLimits = c(-650,650)
@@ -56,16 +57,16 @@ colorVector = c(
 
 # superior
 
-pdf(paste('superiorTS_ALL_d',decade,'_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
+pdf(paste('superiorTS_ALL_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+if(superiorComponentWBM){
 par(mfrow=c(6,1))
+}else{
+par(mfrow=c(4,1))
+}
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
+if(superiorComponentWBM){
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
 box()
 axis(2, at=compLimitsLabs, cex.lab = 0.7); 
@@ -174,6 +175,45 @@ legend(
 	ncol = 5
 );
 
+}else{
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(2, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('superiorNBS[',i,']', sep=''),3],
+		y1 = jSum[paste('superiorNBS[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('superiorNBS[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(superiorNBS_A)){
+		lines(c(i, i+1), c(superiorNBS_A[i,n],superiorNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}        
+
+superiorNBSLegend = c('L2SWBM', superiorNBSSrc);
+superiorNBSLegendColors = c('gray60', colorVector[1:length(superiorNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = superiorNBSLegend,
+	col = superiorNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(superiorNBSSrc))),
+	lwd = c(0, rep(1.5, length(superiorNBSSrc))),
+	pch = c(15, rep(NA, length(superiorNBSSrc))),
+	ncol = 5
+);
+
+}
+
+
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(0,5000)); 
 box()
 axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
@@ -191,30 +231,27 @@ for(i in startMo:endMo){
 	#lines(i+(1/2), jSum[paste('superiorOutflow[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
 	
-	lines(c(i, i+1), c(ySuperiorOutflow1[i],ySuperiorOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
-	lines(c(i, i+1), c(ySuperiorOutflow2[i],ySuperiorOutflow2[i]), col = "purple",   lwd=1.5, type='s')
-}        
-lines((startMo:endMo+0.5),ySuperiorOutflow1[startMo:endMo]+2*sQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),ySuperiorOutflow1[startMo:endMo]-2*sQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),ySuperiorOutflow2[startMo:endMo]+2*sQ_U, col = "purple",  lwd=1.5, type='l', lty=3)   
-lines((startMo:endMo+0.5),ySuperiorOutflow2[startMo:endMo]-2*sQ_U, col = "purple",  lwd=1.5, type='l', lty=3) 
+	for(n in 3:ncol(superiorOutflow_A)){
+		lines(c(i, i+1), c(superiorOutflow_A[i,n],superiorOutflow_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}  
+superiorOutflowLegend = c('L2SWBM', superiorOutflowSrc);
+superiorOutflowLegendColors = c('gray60', colorVector[1:length(superiorOutflowSrc)]);
 
-superiorOutflowLegend = c('L2SWBM', 'Coordinated', 'IGS', 'Uncertainty from Bruxer\'s Thesis');
-superiorOutflowLegendColors = c('gray60', 'darkgreen', 'purple', 'black');
 
 legend(
 	x = 'topleft',
 	legend = superiorOutflowLegend,
 	col = superiorOutflowLegendColors,
 	bty = 'n',
-	lty = c(0, rep(1, 2), 3),
-	lwd = c(0, rep(1.5, 3)),
-	pch = c(15, rep(NA, 3)),
+	lty = c(0, rep(1, 2)),
+	lwd = c(0, rep(1.5, 2)),
+	pch = c(15, rep(NA, 2)),
 	ncol = 2
 );
 
 
-plot(ySuperiorDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
+plot(c(0), c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
 axis(2, at=diversionLimitsLabs, cex.lab = 0.7); 
@@ -231,10 +268,12 @@ for(i in startMo:endMo){
 	);
 	#lines(i+(1/2), jSum[paste('superiorDiversion[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
-	lines(c(i, i+1), c(ySuperiorDiversion1[i],ySuperiorDiversion1[i]), col = "darkgreen",  lwd=1.5, type='s')
+	for(n in 3:ncol(superiorDiversion_A)){
+		lines(c(i, i+1), c(superiorDiversion_A[i,n],superiorDiversion_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
 }
 
-plot(ySuperiorDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
+plot(c(0), c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
 axis(4, cex.lab = 0.7); 
@@ -260,16 +299,16 @@ dev.off();
 
 ### miHuron
 
-pdf(paste('miHuronTS_ALL_d',decade,'_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(6,1))
+pdf(paste('miHuronTS_ALL_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+if(miHuronComponentWBM){
+	par(mfrow=c(6,1))
+}else{
+	par(mfrow=c(4,1))
+}
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
+if(miHuronComponentWBM){
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
 box()
 axis(2, at=compLimitsLabs, cex.lab = 0.7); 
@@ -379,6 +418,43 @@ legend(
 	ncol = 5
 );
 
+}else{
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(2, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('miHuronNBS[',i,']', sep=''),3],
+		y1 = jSum[paste('miHuronNBS[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('miHuronNBS[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(miHuronNBS_A)){
+		lines(c(i, i+1), c(miHuronNBS_A[i,n],miHuronNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}        
+
+miHuronNBSLegend = c('L2SWBM', miHuronNBSSrc);
+miHuronNBSLegendColors = c('gray60', colorVector[1:length(miHuronNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = miHuronNBSLegend,
+	col = miHuronNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(miHuronNBSSrc))),
+	lwd = c(0, rep(1.5, length(miHuronNBSSrc))),
+	pch = c(15, rep(NA, length(miHuronNBSSrc))),
+	ncol = 5
+);
+
+}
 
 
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(3000,8000)); 
@@ -398,30 +474,27 @@ for(i in startMo:endMo){
 	#lines(i+(1/2), jSum[paste('miHuronOutflow[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
 	
-	lines(c(i, i+1), c(yMiHuronOutflow1[i],yMiHuronOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
-	lines(c(i, i+1), c(yMiHuronOutflow2[i],yMiHuronOutflow2[i]), col = "purple",   lwd=1.5, type='s')
-}        
-lines((startMo:endMo+0.5),yMiHuronOutflow1[startMo:endMo]+2*mQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),yMiHuronOutflow1[startMo:endMo]-2*mQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),yMiHuronOutflow2[startMo:endMo]+2*mQ_U, col = "purple",  lwd=1.5, type='l', lty=3)   
-lines((startMo:endMo+0.5),yMiHuronOutflow2[startMo:endMo]-2*mQ_U, col = "purple",  lwd=1.5, type='l', lty=3)      
+	for(n in 3:ncol(miHuronOutflow_A)){
+		lines(c(i, i+1), c(miHuronOutflow_A[i,n],miHuronOutflow_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}     
 
-miHuronOutflowLegend = c('L2SWBM', 'Coordinated', 'IGS', 'Uncertainty from Bruxer\'s Thesis');
-miHuronOutflowLegendColors = c('gray60', 'darkgreen', 'purple', 'black');
+miHuronOutflowLegend = c('L2SWBM', miHuronOutflowSrc);
+miHuronOutflowLegendColors = c('gray60', colorVector[1:length(miHuronOutflowSrc)]);
 
 legend(
 	x = 'topleft',
 	legend = miHuronOutflowLegend,
 	col = miHuronOutflowLegendColors,
 	bty = 'n',
-	lty = c(0, rep(1, 2), 3),
-	lwd = c(0, rep(1.5, 3)),
-	pch = c(15, rep(NA, 3)),
+	lty = c(0, rep(1, 2)),
+	lwd = c(0, rep(1.5, 2)),
+	pch = c(15, rep(NA, 2)),
 	ncol = 2
 );
 
 
-plot(yMiHuronDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
+plot(c(0), c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
 axis(2, at=diversionLimitsLabs, cex.lab = 0.7); 
@@ -438,7 +511,9 @@ for(i in startMo:endMo){
 	);
 	#lines(i+(1/2), jSum[paste('miHuronDiversion[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
-	lines(c(i, i+1), c(yMiHuronDiversion1[i],yMiHuronDiversion1[i]), col = "darkgreen",  lwd=1.5, type='s')
+	for(n in 3:ncol(miHuronDiversion_A)){
+		lines(c(i, i+1), c(miHuronDiversion_A[i,n],miHuronDiversion_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
 }
 
 abline(h = 91, col='lightblue3', lty=2, lwd=1.5)
@@ -458,7 +533,7 @@ legend(
 );
 
 
-plot(yMiHuronDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
+plot(c(0), c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
 axis(4, cex.lab = 0.7); 
@@ -484,22 +559,135 @@ dev.off();
 
 ### Clair
 
-pdf(paste('clair_ALL_d',decade,'_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(3,1))
+pdf(paste('clair_ALL_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+if(clairComponentWBM){
+	par(mfrow=c(5,1))
+}else{
+	par(mfrow=c(3,1))
+}
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
+if(clairComponentWBM){
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
+box()
+axis(2, at=compLimitsLabs, cex.lab = 0.7); 
+axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('clairPrecip[',i,']', sep=''),3],
+		y1 = jSum[paste('clairPrecip[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('clairPrecip[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(clairPrecip_A)){
+		lines(c(i, i+1), c(clairPrecip_A[i,n],clairPrecip_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}        
+
+clairPrecipLegend = c('L2SWBM', clairPrecipSrc);
+clairPrecipLegendColors = c('gray60', colorVector[1:length(clairPrecipSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = clairPrecipLegend,
+	col = clairPrecipLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(clairPrecipSrc))),
+	lwd = c(0, rep(1.5, length(clairPrecipSrc))),
+	pch = c(15, rep(NA, length(clairPrecipSrc))),
+	ncol = 5
+);
+
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
+box()
+axis(4, at=compLimitsLabs, cex.lab = 0.7); 
+axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
+mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('clairEvap[',i,']', sep=''),3],
+		y1 = jSum[paste('clairEvap[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('clairEvap[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(clairEvap_A)){
+		lines(c(i, i+1), c(clairEvap_A[i,n],clairEvap_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}    
+
+
+clairEvapLegend = c('L2SWBM', clairEvapSrc);
+clairEvapLegendColors = c('gray60', colorVector[1:length(clairEvapSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = clairEvapLegend,
+	col = clairEvapLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(clairEvapSrc))),
+	lwd = c(0, rep(1.5, length(clairEvapSrc))),
+	pch = c(15, rep(NA, length(clairEvapSrc))),
+	ncol = 5
+);
+    
+
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
+box()
+axis(2, at=compLimitsLabs, cex.lab = 0.7); 
+axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('clairRunoff[',i,']', sep=''),3],
+		y1 = jSum[paste('clairRunoff[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('clairRunoff[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(clairRunoff_A)){
+		lines(c(i, i+1), c(clairRunoff_A[i,n],clairRunoff_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}      
+
+
+clairRunoffLegend = c('L2SWBM', clairRunoffSrc);
+clairRunoffLegendColors = c('gray60', colorVector[1:length(clairRunoffSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = clairRunoffLegend,
+	col = clairRunoffLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(clairRunoffSrc))),
+	lwd = c(0, rep(1.5, length(clairRunoffSrc))),
+	pch = c(15, rep(NA, length(clairRunoffSrc))),
+	ncol = 5
+);
+
+}else{
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = clairNBSLimits); 
 box()
 axis(2, cex.lab = 0.7); 
 axis(2, labels=FALSE, cex.lab = 0.7); 
 axis(4, labels=FALSE, cex.lab = 0.7); 
+if(clairCMS){
 mtext(paste("NBS (cms)"), side = 2, line = 2.5, cex=0.8); 
+}else{
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+}
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
 for(i in startMo:endMo){
@@ -527,7 +715,7 @@ legend(
 	pch = c(15, rep(NA, length(clairNBSSrc))),
 	ncol = 5
 );
-
+}
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = clairFlowLimits); 
 box()
 axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
@@ -543,25 +731,22 @@ for(i in startMo:endMo){
 		y1 = jSum[paste('clairOutflow[',i,']', sep=''),7]
 	);
 
-	lines(c(i, i+1), c(yClairOutflow1[i],yClairOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
-	lines(c(i, i+1), c(yClairOutflow2[i],yClairOutflow2[i]), col = "purple",  lwd=1.5, type='s')
-}        
-lines((startMo:endMo+0.5),yClairOutflow1[startMo:endMo]+3*cQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),yClairOutflow1[startMo:endMo]-3*cQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),yClairOutflow2[startMo:endMo]+3*cQ_U, col = "purple",  lwd=1.5, type='l', lty=3)   
-lines((startMo:endMo+0.5),yClairOutflow2[startMo:endMo]-3*cQ_U, col = "purple",  lwd=1.5, type='l', lty=3)   
+	for(n in 3:ncol(clairOutflow_A)){
+		lines(c(i, i+1), c(clairOutflow_A[i,n],clairOutflow_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}         
 
-clairOutflowLegend = c('L2SWBM', 'Coordinated', 'IGS', 'Uncertainty from Bruxer\'s Thesis');
-clairOutflowLegendColors = c('gray60', 'darkgreen', 'purple', 'black');
+clairOutflowLegend = c('L2SWBM', clairOutflowSrc);
+clairOutflowLegendColors = c('gray60', colorVector[1:length(clairOutflowSrc)]);
 
 legend(
 	x = 'topleft',
 	legend = clairOutflowLegend,
 	col = clairOutflowLegendColors,
 	bty = 'n',
-	lty = c(0, rep(1, 2), 3),
-	lwd = c(0, rep(1.5, 3)),
-	pch = c(15, rep(NA, 3)),
+	lty = c(0, rep(1, 2), 2),
+	lwd = c(0, rep(1.5, 2)),
+	pch = c(15, rep(NA, 2)),
 	ncol = 2
 );
 
@@ -573,7 +758,11 @@ axis(2, cex.lab = 0.7);
 axis(4, labels=FALSE, cex.lab = 0.7); 
 axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
-mtext(expression(paste(Delta,'H (cms)')), side = 2, line = 2.5, cex = 0.8)
+if(clairCMS){
+	mtext(expression(paste(Delta,'H (cms)')), side = 2, line = 2.5, cex = 0.8)
+}else{
+	mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
+}
 
 for(i in startMo:endMo){
 	segments(   
@@ -591,16 +780,16 @@ dev.off();
 
 ### Erie
 
-pdf(paste('erieTS_ALL_d',decade,'_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(6,1))
+pdf(paste('erieTS_ALL_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+if(erieComponentWBM){
+	par(mfrow=c(6,1))
+}else{
+	par(mfrow=c(4,1))
+}
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
+if(erieComponentWBM){
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
 box()
 axis(2, at=compLimitsLabs, cex.lab = 0.7); 
@@ -709,6 +898,43 @@ legend(
 	ncol = 5
 );    
 
+}else{
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(2, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('erieNBS[',i,']', sep=''),3],
+		y1 = jSum[paste('erieNBS[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('erieNBS[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(erieNBS_A)){
+		lines(c(i, i+1), c(erieNBS_A[i,n],erieNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}        
+
+erieNBSLegend = c('L2SWBM', erieNBSSrc);
+erieNBSLegendColors = c('gray60', colorVector[1:length(erieNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = erieNBSLegend,
+	col = erieNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(erieNBSSrc))),
+	lwd = c(0, rep(1.5, length(erieNBSSrc))),
+	pch = c(15, rep(NA, length(erieNBSSrc))),
+	ncol = 5
+);
+
+}
 
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(3000,9000)); 
 box()
@@ -727,26 +953,26 @@ for(i in startMo:endMo){
 	#lines(i+(1/2), jSum[paste('erieOutflow[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
 	
-	lines(c(i, i+1), c(yErieOutflow1[i],yErieOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
+	for(n in 3:ncol(erieOutflow_A)){
+		lines(c(i, i+1), c(erieOutflow_A[i,n],erieOutflow_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
 }        
-lines((startMo:endMo+0.5),yErieOutflow1[startMo:endMo]+3*eQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),yErieOutflow1[startMo:endMo]-3*eQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
 
-erieOutflowLegend = c('L2SWBM', 'Coordinated', 'IGS', 'Uncertainty from Bruxer\'s Thesis');
-erieOutflowLegendColors = c('gray60', 'darkgreen', 'purple', 'black');
+erieOutflowLegend = c('L2SWBM', erieOutflowSrc);
+erieOutflowLegendColors = c('gray60', colorVector[1:length(erieOutflowSrc)]);
 
 legend(
 	x = 'topleft',
 	legend = erieOutflowLegend,
 	col = erieOutflowLegendColors,
 	bty = 'n',
-	lty = c(0, rep(1, 2), 3),
-	lwd = c(0, rep(1.5, 3)),
-	pch = c(15, rep(NA, 3)),
+	lty = c(0, rep(1, 2)),
+	lwd = c(0, rep(1.5, 2)),
+	pch = c(15, rep(NA, 2)),
 	ncol = 2
 );
 
-plot(yErieDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
+plot(c(0), c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = diversionLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
 axis(2, at=diversionLimitsLabs, cex.lab = 0.7); 
@@ -763,10 +989,12 @@ for(i in startMo:endMo){
 	);
 	#lines(i+(1/2), jSum[paste('erieDiversion[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
-	lines(c(i, i+1), c(yErieDiversion1[i],yErieDiversion1[i]), col = "darkgreen",  lwd=1.5, type='s')
+	for(n in 3:ncol(erieDiversion_A)){
+		lines(c(i, i+1), c(erieDiversion_A[i,n],erieDiversion_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
 }
 
-plot(yErieDiversion1, type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
+plot(c(0), c(0), type = "n", col = "darkgreen", lwd = 4, axes = FALSE, ylim = storeLimits, xlim = c(startMo,endMoPlot)); 
 box()
 abline(h=0, col = 8)
 axis(4, cex.lab = 0.7); 
@@ -792,16 +1020,17 @@ dev.off();
 
 ### ontario
 
-pdf(paste('ontarioTS_ALL_d',decade,'_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.pdf', sep=''), width = 10, height = 7.5);
-par(mfrow=c(5,1))
+pdf(paste('ontarioTS_ALL_d',decade,'_',modelName,'.pdf', sep=''), width = 10, height = 7.5);
+if(ontarioComponentWBM){
+	par(mfrow=c(5,1))
+}else{
+	par(mfrow=c(3,1))
+}
 par(mar = c(0,0,0,0))
 par(oma = c(4,4,4,4))
 
+
+if(ontarioComponentWBM){
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = compLimits); 
 box()
 axis(2, at=compLimitsLabs, cex.lab = 0.7); 
@@ -907,7 +1136,43 @@ legend(
 	ncol = 5
 );
 
+}else{
+plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = nbsLimits); 
+box()
+axis(2, cex.lab = 0.7); 
+axis(2, labels=FALSE, cex.lab = 0.7); 
+axis(4, labels=FALSE, cex.lab = 0.7); 
+mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
+axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
 
+for(i in startMo:endMo){
+	segments(   
+		x0 = i+(1/2), x1 = i+(1/2), lwd = 4, col = 'gray60', lend = 2,
+		y0 = jSum[paste('ontarioNBS[',i,']', sep=''),3],
+		y1 = jSum[paste('ontarioNBS[',i,']', sep=''),7]
+	);
+	#lines(i+(1/2), jSum[paste('ontarioNBS[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
+	
+	for(n in 3:ncol(ontarioNBS_A)){
+		lines(c(i, i+1), c(ontarioNBS_A[i,n],ontarioNBS_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
+}        
+
+ontarioNBSLegend = c('L2SWBM', ontarioNBSSrc);
+ontarioNBSLegendColors = c('gray60', colorVector[1:length(ontarioNBSSrc)]);
+
+legend(
+	x = 'topleft',
+	legend = ontarioNBSLegend,
+	col = ontarioNBSLegendColors,
+	bty = 'n',
+	lty = c(0, rep(1, length(ontarioNBSSrc))),
+	lwd = c(0, rep(1.5, length(ontarioNBSSrc))),
+	pch = c(15, rep(NA, length(ontarioNBSSrc))),
+	ncol = 5
+);
+
+}
 plot(c(0), c(0), type = "n", axes = FALSE, xlim = c(startMo,endMoPlot), ylim = c(4000,11000)); 
 box()
 axis(4, at=flowLimitsLabs, cex.lab = 0.7); 
@@ -924,23 +1189,22 @@ for(i in startMo:endMo){
 	);
 	#lines(i+(1/2), jSum[paste('ontarioOutflow[',i,']', sep=''),5], col = "black",   lwd = 1, type='p', pch=15, cex=0.75)
 	
-	
-	lines(c(i, i+1), c(yOntarioOutflow1[i],yOntarioOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
+	for(n in 3:ncol(ontarioOutflow_A)){
+		lines(c(i, i+1), c(ontarioOutflow_A[i,n],ontarioOutflow_A[i,n]), col = colorVector[n-2],  lwd=1.5, type='s')
+	}
 }        
-lines((startMo:endMo+0.5),yOntarioOutflow1[startMo:endMo]+3*oQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
-lines((startMo:endMo+0.5),yOntarioOutflow1[startMo:endMo]-3*oQ_U, col = "darkgreen",  lwd=1.5, type='l', lty=3)
 
-ontarioOutflowLegend = c('L2SWBM', 'Coordinated', 'IGS', 'Uncertainty from Bruxer\'s Thesis');
-ontarioOutflowLegendColors = c('gray60', 'darkgreen', 'purple', 'black');
+ontarioOutflowLegend = c('L2SWBM', ontarioOutflowSrc);
+ontarioOutflowLegendColors = c('gray60', colorVector[1:length(ontarioOutflowSrc)]);
 
 legend(
 	x = 'topleft',
 	legend = ontarioOutflowLegend,
 	col = ontarioOutflowLegendColors,
 	bty = 'n',
-	lty = c(0, rep(1, 2), 3),
-	lwd = c(0, rep(1.5, 3)),
-	pch = c(15, rep(NA, 3)),
+	lty = c(0, rep(1, 2)),
+	lwd = c(0, rep(1.5, 2)),
+	pch = c(15, rep(NA, 2)),
 	ncol = 2
 );
 

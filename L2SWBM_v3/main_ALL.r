@@ -14,7 +14,9 @@ library(rjags)
 
 ##### SET WORKING DIRECTORY
 
-setwd("C:/Users/smith/Desktop/L2SWBM_Ops_Res");
+rootDir = "D:/L2SWBM_v3"
+#rootDir = "C:/Users/joexi/Desktop/L2SWBM_v3"
+setwd(rootDir);
 
 ### GET FUNCTIONS, GLOBAL (GREAT LAKES WIDE) VARIABLES AND CONFIGURATION
 source('configEtc.r');
@@ -22,22 +24,39 @@ source('configEtc.r');
 ### GET DATA
 source('data_ALL.r');
 
+source('proc_prior_ALL.r');
+
+### CREATE RESULTS DIRECTORY
+if(!file.exists(paste("results/", modelName, sep=''))){
+	dir.create(paste("results/", modelName, sep=''));
+}
+setwd(paste(rootDir,"/results/", modelName, sep=''))
+
+write.table(config, paste(modelName,'_config.csv', sep=''), sep=',', row.names=TRUE, col.names=c("Config", "Value"))
+
 ### PREVIEW DATA
-#source('tsPlotter_Preview_ALL.r')
+source('../../priorPlotter.r')
 
-source('proc_ALL.r');
+source('../../tsPlotter_Preview_ALL.r')
 
-save.image(paste('L2SWBM_ALL_',rollPeriod,'_',
-	as.numeric(biasOutflows),
-	as.numeric(incProcError),
-	as.numeric(checkModel),
-	as.numeric(dHPrecDefined),
-'_',startAnalysisYear,'_',startAnalysisMonth,'_',endAnalysisYear,'_',endAnalysisMonth,'_',iters,'_',modelSuffix,'.RData',sep=''));
+### WRITE THE MODEL
 
-source('tsPlotter_ALL.r');
+source('../../proc_model_write_ALL.r');
+
+### RUN THE MODEL
+
+source('../../proc_model_run_ALL.r');
+
+### SAVE DATA
+
+save.image(paste(modelName,'.RData', sep=''));
+
+### PLOTS
+
+source('../../tsPlotter_ALL.r');
 
 if(checkModel){
-	source('statsGen.r');
+	source('../../statsGen.r');
 }
 
-source('dataGen_ALL.r');
+source('../../dataGen_ALL.r');
