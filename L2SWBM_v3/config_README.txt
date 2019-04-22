@@ -17,6 +17,9 @@ L2SWBM CONFIGURATION OPTIONS
   and you wish to provide flexibility, provide a value between 0 and 1, describing the 
   fraction of calculated historical precision you prefer to use
 
+- Residual NBS column: which column are the residual NBS values in. This is to substitute residual NBS where
+values do not exist for the selected NBS prior column
+
 - Outflow Bias: 
 -- If we set Outflow Bias to TRUE
 --- Outflow estimate ~ Normal(True Value + Bias Term, Precision) 
@@ -34,6 +37,9 @@ L2SWBM CONFIGURATION OPTIONS
   "Flow Uncertainty In Percent" is TRUE). This is where you would insert values 
   as suggested by Bruxer 2010,
   for example
+
+- Flow Uncertainty In Percent: Set to TRUE to use the [channel flow or diversion] 
+  Uncertainties, FALSE to manually define per observation below this option
 
 - Lakes [component]: Provide the component observations for 'S'uperior, 'M'iHuron, 
   St. 'C'lair, 'E'rie, and 'O'ntario if their quoted letter is in the space-delimited string.
@@ -57,9 +63,6 @@ The space delimited format by model applies to the options starting here and end
 - [component] Obs Prior Mean Bias and Bias Std. Dev: suggest a bias and standard deviation 
   for that bias in the units of the observation. Standard deviation, if set to zero, is replaced
   with 10 for P, E, and R, 30 for NBS, 200 for Channel Flows, and 10 for Diversions.
-
-- Flow Uncertainty In Percent: Set to TRUE to use the [channel flow or diversion] 
-  Uncertainties, FALSE to manually define per observation below this option
 
 - [component] Obs Std. Dev: We define observations y ~ Normal(true + bias, precision). Define
   the precision in terms of standard deviations in the observations' units, or leave zero to 
@@ -94,4 +97,5 @@ The space delimited format by model applies to the options starting here and end
   in general. Play with this a little.
 
 - Model Checks: Run the model such that generated samples include those to check 
-  balance closure as well as proper simulation of inputs. Outputs closure summary file							 
+  balance closure as well as proper simulation of inputs. Outputs closure summary file.
+  Very useful given convergence is difficult.						 
