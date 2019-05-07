@@ -1,0 +1,3 @@
+Now including config file with zipped model results.
+
+Note that for this model run, FVCOM evaporation was not used, as the model was run before the monthly value was added to the input data.
