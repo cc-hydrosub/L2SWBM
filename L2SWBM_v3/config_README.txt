@@ -30,20 +30,21 @@ values do not exist for the selected NBS prior column
 --- Outflow estimate ~ Normal(True Value, Precision) 
 ---- Precision derived recommendations from Bruxer or otherwise set below
 
-- [channel flow or diversion] Uncertainty: percentage/100 of the historical (prior) per calendar
-  month mean to cast as the standard deviation/precision of the flow observation's bias 
-  (if "Outflow Bias" is TRUE AND "Flow Uncertainty In Percent" is TRUE) or 
-  flow observation's precision (if "Outflow Bias" is FALSE AND 
-  "Flow Uncertainty In Percent" is TRUE). This is where you would insert values 
-  as suggested by Bruxer 2010,
-  for example
+- [channel flow or diversion] Uncertainty: percentage/100 of the ***historical (prior) per calendar
+  month mean*** to cast as the standard deviation/precision of the flow observations' bias or precision,
+  depending on the following:
+-- If "Outflow Bias" is TRUE AND "Flow Uncertainty In Percent" is TRUE
+---- resulting value is applied to the bias
+-- If "Outflow Bias" is FALSE AND "Flow Uncertainty In Percent" is TRUE
+---- resulting value is applied to the observation's precision
+- This is where you would insert values as suggested by Bruxer 2010, for example
 
 - Flow Uncertainty In Percent: Set to TRUE to use the [channel flow or diversion] 
   Uncertainties, FALSE to manually define per observation below this option
 
 - Lakes [component]: Provide the component observations for 'S'uperior, 'M'iHuron, 
   St. 'C'lair, 'E'rie, and 'O'ntario if their quoted letter is in the space-delimited string.
-  Otherwise, don't provide the observations to the model.
+  Otherwise, don't provide the observations to the model. Prior distributions are not affected.
 
 - [component] Inputs: For picking NBS component models to input into the L2SWBM, 
   use zeros and ones separated by a space, corresponding to the models available 
@@ -62,7 +63,9 @@ The space delimited format by model applies to the options starting here and end
 
 - [component] Obs Prior Mean Bias and Bias Std. Dev: suggest a bias and standard deviation 
   for that bias in the units of the observation. Standard deviation, if set to zero, is replaced
-  with 10 for P, E, and R, 30 for NBS, 200 for Channel Flows, and 10 for Diversions.
+  with 10 for P, E, and R, 30 for NBS, 200 for Channel Flows, and 10 for Diversions. For channel flows and diversions,
+  this differs from the [channel flow or diversion] Uncertainty options as these are direct prescriptions for bias.
+  The replacement values are arbitrary based off of rough visual analysis of the data.
 
 - [component] Obs Std. Dev: We define observations y ~ Normal(true + bias, precision). Define
   the precision in terms of standard deviations in the observations' units, or leave zero to 
@@ -83,14 +86,18 @@ The space delimited format by model applies to the options starting here and end
 - dH Uncertainty in mm - If 'Define dH Uncertainty' is TRUE, define it here. 
   Model will assert uncertainty be at least 1 mm. Model will account for rolling window							
 
-- [lake] Component WBM - Set to TRUE to use the WBM...
--- dH = P - E + R + Q_i - Q_o +/- D + process error
-- else: use the WBM
+- [lake] Component WBM - defines whether the water balance is computed using NBS or the components of NBS. 
+Your choice of priors were already defined above
+-- TRUE
+--- dH = P - E + R + Q_i - Q_o +/- D + process error
+-- FALSE
 -- dH = NBS + Q_i - Q_o +/- D + process error
---- Your choice of priors were already defined above
 
 - St. Clair CMS if not Component WBM: if St. Clair Component WBM is FALSE above, then the
   entire St. Clair WBM will be done in units of cubic meters per second. 
+  
+- St. Clair mm to cms Factor: how many cms should it take on average, in a given month, to raise or lower
+Lake St. Clair by 1 mm? This will be used in calculating the cms from given mm data
 
 - MCMC Iterations: How many samples do you wish to draw for this model run? 2000 is adequate
   for a quick run. 100K to a million get you closer to convergence, but that's been elusive
