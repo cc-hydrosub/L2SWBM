@@ -1,4 +1,5 @@
 ### TIME SERIES PLOTTER FOR THE L2SWBM
+# LMF 2019-06-2018 modified how x-axis is drawn, because it was not drawing correctly when the start date is not January (as most operational runs)
 
 superiorDS_A = getSubset(superiorDS, startAnalysisYear, startAnalysisMonth, endAnalysisYear, endAnalysisMonth)
 
@@ -107,6 +108,11 @@ if(endMo > posteriorEndMonth){
 }
 
 yearRange = (startAnalysisYear+(decade*10)):(startAnalysisYear+((decade+1)*10)-1);
+
+## LMF 2019-06-18 Create date variables to correct the dates in the plotting process, based on fixe in earlier version operating on USACE system.
+startNew<-as.Date(paste(startAnalysisYear, startAnalysisMonth, 15, sep="-"))
+endNew<-as.Date(paste(endAnalysisYear, endAnalysisMonth, 15, sep="-"))
+
 compLimits = c(-50, 500)
 nbsLimits = c(-200, 650)
 flowLimits = c(-25,7000)
@@ -156,7 +162,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(superiorPrecip_A)){
@@ -184,7 +191,8 @@ axis(4, at=compLimitsLabs, cex.lab = 0.7);
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(superiorEvap_A)){
@@ -214,7 +222,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(superiorRunoff_A)){
@@ -243,7 +252,8 @@ axis(4, at=nbsLimitsLabs, cex.lab = 0.7);
 axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(superiorNBS_A)){
@@ -273,7 +283,8 @@ axis(2, at=flowLimitsLabs, cex.lab = 0.7);
 axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	lines(c(i, i+1), c(ySuperiorOutflow1[i],ySuperiorOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
@@ -304,7 +315,8 @@ abline(h=0, col = 8)
 axis(4, at=diversionLimitsLabs, cex.lab = 0.7); 
 axis(4, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 mtext('D (cms)', side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){
@@ -316,8 +328,9 @@ box()
 abline(h=0, col = 8)
 axis(2, cex.lab = 0.7); 
 axis(4, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
-axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=format(seq(startNew, endNew, by="6 months"), '%b %y'), las=2); # LMF 2019-06-18 fix for x-axis
+#axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+#axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){
@@ -341,7 +354,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(miHuronPrecip_A)){
@@ -371,7 +385,8 @@ axis(4, at=compLimitsLabs, cex.lab = 0.7);
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(miHuronEvap_A)){
@@ -400,7 +415,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(miHuronRunoff_A)){
@@ -430,7 +446,8 @@ axis(4, at=nbsLimitsLabs, cex.lab = 0.7);
 axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(miHuronNBS_A)){
@@ -461,7 +478,8 @@ axis(2, at=flowLimitsLabs, cex.lab = 0.7);
 axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	lines(c(i, i+1), c(yMiHuronOutflow1[i],yMiHuronOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
@@ -491,7 +509,8 @@ abline(h=0, col = 8)
 axis(4, at=diversionLimitsLabs, cex.lab = 0.7); 
 axis(4, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 mtext('D (cms)', side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){	
@@ -503,8 +522,9 @@ box()
 abline(h=0, col = 8)
 axis(2, cex.lab = 0.7); 
 axis(4, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
-axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=format(seq(startNew, endNew, by="6 months"), '%b %y'), las=2); # LMF 2019-06-18 fix x-axis
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){	
@@ -528,7 +548,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(clairPrecip_A)){
@@ -556,7 +577,8 @@ axis(4, at=compLimitsLabs, cex.lab = 0.7);
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(clairEvap_A)){
@@ -586,7 +608,8 @@ axis(2, cex.lab = 0.7);
 axis(2, labels=FALSE, cex.lab = 0.7); 
 axis(4, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(clairRunoff_A)){
@@ -616,7 +639,8 @@ axis(4, cex.lab = 0.7);
 axis(4, labels=FALSE, cex.lab = 0.7); 
 axis(2, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("NBS (cms)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(clairNBS_A)){
@@ -644,7 +668,8 @@ axis(2, at=flowLimitsLabs, cex.lab = 0.7);
 axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	lines(c(i, i+1), c(yClairOutflow1[i],yClairOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
@@ -673,8 +698,9 @@ box()
 abline(h=0, col = 8)
 axis(4, cex.lab = 0.7); 
 axis(2, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
-axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=format(seq(startNew, endNew, by="6 months"), '%b %y'), las=2); # LMF 2019-06-18 fix x-axis
 mtext(expression(paste(Delta,'H (cms)')), side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){
@@ -698,7 +724,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(eriePrecip_A)){
@@ -727,7 +754,8 @@ axis(4, at=compLimitsLabs, cex.lab = 0.7);
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(erieEvap_A)){
@@ -756,7 +784,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(erieRunoff_A)){
@@ -785,7 +814,8 @@ axis(4, at=nbsLimitsLabs, cex.lab = 0.7);
 axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(erieNBS_A)){
@@ -816,7 +846,8 @@ axis(2, at=flowLimitsLabs, cex.lab = 0.7);
 axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	lines(c(i, i+1), c(yErieOutflow1[i],yErieOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
@@ -844,7 +875,8 @@ abline(h=0, col = 8)
 axis(4, at=diversionLimitsLabs, cex.lab = 0.7); 
 axis(4, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=diversionLimitsTicks, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 mtext('D (cms)', side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){
@@ -856,8 +888,9 @@ box()
 abline(h=0, col = 8)
 axis(2, cex.lab = 0.7); 
 axis(4, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
-axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=format(seq(startNew, endNew, by="6 months"), '%b %y'), las=2); # LMF 2019-06-18 fix x-axis
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){
@@ -881,7 +914,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("P (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(ontarioPrecip_A)){
@@ -909,7 +943,8 @@ axis(4, at=compLimitsLabs, cex.lab = 0.7);
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("E (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(ontarioEvap_A)){
@@ -937,7 +972,8 @@ axis(2, at=compLimitsLabs, cex.lab = 0.7);
 axis(2, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=compLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("R (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(ontarioRunoff_A)){
@@ -965,7 +1001,8 @@ axis(4, at=nbsLimitsLabs, cex.lab = 0.7);
 axis(4, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(2, at=nbsLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 mtext(paste("NBS (mm)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	for(n in 3:ncol(ontarioNBS_A)){
@@ -994,7 +1031,8 @@ axis(2, at=flowLimitsLabs, cex.lab = 0.7);
 axis(2, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7); 
 axis(4, at=flowLimitsTicks, labels=FALSE, cex.lab = 0.7);  
 mtext(paste("Q (cms)"), side = 2, line = 2.5, cex=0.8); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=FALSE, las=2); # LMF 2019-06-18 fix for x-axis
 
 for(i in startMo:endMo){
 	lines(c(i, i+1), c(yOntarioOutflow1[i],yOntarioOutflow1[i]), col = "darkgreen",  lwd=1.5, type='s')
@@ -1022,8 +1060,9 @@ box()
 abline(h=0, col = 8)
 axis(4, cex.lab = 0.7); 
 axis(2, labels=FALSE, cex.lab = 0.7); 
-axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
-axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12), labels=FALSE);
+# axis(1, at=seq(startMo,endMoPlot,12)+6, labels=yearRange, tick=FALSE);
+axis(1, at=seq(startMo,endMoPlot,6), labels=format(seq(startNew, endNew, by="6 months"), '%b %y'), las=2); # LMF 2019-06-18 fix x-axis
 mtext(expression(paste(Delta,'H (mm)')), side = 2, line = 2.5, cex = 0.8)
 
 for(i in startMo:endMo){
