@@ -13,7 +13,9 @@ L2SWBM CONFIGURATION OPTIONS
    within the model, what values we would expect that parameter to have for that 
    particular lake. Ensure that the time range you've picked per component prior 
    contains observations for the column you picked
-- [component] Prior Precision Mod: if a component has, historically, a narrow range of values,
+-- For the data sets here, the column number should be 3 or greater, 
+   as columns 1 and 2 are years and months, respectively
+- [component] Prior Precision 'Mod'ification: if a component has, historically, a narrow range of values,
   and you wish to provide flexibility, provide a value between 0 and 1, describing the 
   fraction of calculated historical precision you prefer to use
 
@@ -62,10 +64,12 @@ The space delimited format by model applies to the options starting here and end
 "Balance Process Error" 
 
 - [component] Obs Prior Mean Bias and Bias Std. Dev: suggest a bias and standard deviation 
-  for that bias in the units of the observation. Standard deviation, if set to zero, is replaced
-  with 10 for P, E, and R, 30 for NBS, 200 for Channel Flows, and 10 for Diversions. For channel flows and diversions,
-  this differs from the [channel flow or diversion] Uncertainty options as these are direct prescriptions for bias.
-  The replacement values are arbitrary based off of rough visual analysis of the data.
+  for that bias in the units of the observation (mm for P, E, R, NBS; cms for flows and diversions). 
+  Standard deviation, if set to zero, is replaced with 10 for P, E, and R, 30 for NBS, 
+  200 for Channel Flows, and 10 for Diversions. For channel flows and diversions,
+  this differs from the [channel flow or diversion] Uncertainty options as these are direct prescriptions for bias,
+  not percentages of historical averages. The default replacement values are arbitrary based off 
+  of rough visual analysis of the data.
 
 - [component] Obs Std. Dev: We define observations y ~ Normal(true + bias, precision). Define
   the precision in terms of standard deviations in the observations' units, or leave zero to 
@@ -74,9 +78,10 @@ The space delimited format by model applies to the options starting here and end
 - Balance Process Error: if TRUE, simulate the WBM's process error with Prior Mean 
   and Std. Dev defined directly below it. 
 
-- Process Error Prior Mean and Std. Dev
+- Process Error Prior Mean and Std. Dev: you may provide a prior for these values, which
+  account for factors not explicitly defined in the water balance models described below
 
-- Rolling window: pick 6 or better. Found 12 was pretty good
+- Rolling window: pick 6 or better
 
 - Define dH Uncertainty: Set to TRUE if you would like the model to run with a pre-defined 
   uncertainty (standard deviation) value for observed changes in storage							
