@@ -172,6 +172,8 @@ if(clairComponentWBM){
 }
 stcMMtoCMSFactor = as.numeric(as.vector(config['St. Clair mm to cms Factor',1]))
 
+incNBSNode = as.logical(config['Include NBS Node if not Component WBM',1])
+
 iters = as.integer(as.vector(config['MCMC Iterations',1]))
 halfIters = iters/2;
 
