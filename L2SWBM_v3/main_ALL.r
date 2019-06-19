@@ -27,6 +27,11 @@ source('data_ALL.r');
 source('proc_prior_ALL.r');
 
 ### CREATE RESULTS DIRECTORY
+if(!file.exists(paste("results", sep=''))){
+	dir.create(paste("results", sep=''));
+}
+
+### CREATE MODEL DIRECTORY
 if(!file.exists(paste("results/", modelName, sep=''))){
 	dir.create(paste("results/", modelName, sep=''));
 }
