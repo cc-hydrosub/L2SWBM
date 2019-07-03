@@ -1297,14 +1297,14 @@ modelCode = paste(modelCode,
 '
 		ySuperiorOutflow1Bias[i] ~ dnorm(',yOutflowBiasMean[['ySuperiorOutflow1BiasMean']],',ySuperiorOutflow1BiasPrec[i])
 		ySuperiorOutflow2Bias[i] ~ dnorm(',yOutflowBiasMean[['ySuperiorOutflow2BiasMean']],',ySuperiorOutflow2BiasPrec[i])
-		ySuperiorDiversion1Bias[i] ~ dnorm(',yOutflowBiasMean[['ySuperiorDiversion1BiasMean']],',ySuperiorDiversion1BiasPrec[i])
+		ySuperiorDiversion1Bias[i] ~ dnorm(',yDiversionBiasMean[['ySuperiorDiversion1BiasMean']],',ySuperiorDiversion1BiasPrec[i])
 		yMiHuronOutflow1Bias[i] ~ dnorm(',yOutflowBiasMean[['yMiHuronOutflow1BiasMean']],',yMiHuronOutflow1BiasPrec[i])
 		yMiHuronOutflow2Bias[i] ~ dnorm(',yOutflowBiasMean[['yMiHuronOutflow2BiasMean']],',yMiHuronOutflow2BiasPrec[i])
-		yMiHuronDiversion1Bias[i] ~ dnorm(',yOutflowBiasMean[['yMiHuronDiversion1BiasMean']],',yMiHuronDiversion1BiasPrec[i])
+		yMiHuronDiversion1Bias[i] ~ dnorm(',yDiversionBiasMean[['yMiHuronDiversion1BiasMean']],',yMiHuronDiversion1BiasPrec[i])
 		yClairOutflow1Bias[i] ~ dnorm(',yOutflowBiasMean[['yClairOutflow1BiasMean']],',yClairOutflow1BiasPrec[i])
 		yClairOutflow2Bias[i] ~ dnorm(',yOutflowBiasMean[['yClairOutflow2BiasMean']],',yClairOutflow2BiasPrec[i])
 		yErieOutflow1Bias[i] ~ dnorm(',yOutflowBiasMean[['yErieOutflow1BiasMean']],',yErieOutflow1BiasPrec[i])
-		yErieDiversion1Bias[i] ~ dnorm(',yOutflowBiasMean[['yErieDiversion1BiasMean']],',yErieDiversion1BiasPrec[i])
+		yErieDiversion1Bias[i] ~ dnorm(',yDiversionBiasMean[['yErieDiversion1BiasMean']],',yErieDiversion1BiasPrec[i])
 		yOntarioOutflow1Bias[i] ~ dnorm(',yOutflowBiasMean[['yOntarioOutflow1BiasMean']],',yOntarioOutflow1BiasPrec[i])	
 ',
 sep=''
