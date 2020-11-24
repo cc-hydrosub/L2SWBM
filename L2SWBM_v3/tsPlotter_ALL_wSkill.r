@@ -1486,3 +1486,230 @@ for(mdi in 1:length(modelSkillPoints)){
 }
 dev.off()
 
+# Breaking the skill down
+# m is a vector of months for the analysis (we'll get back to this)
+# length(m) should equal the length of each model's skill point vector in the modelSkillPoints object
+# The listing of each model begins with [lake][variable]
+# So we can probably do something like...
+
+modelListing = names(modelSkillPoints)
+
+superiorPrecipListing = modelListing[grepl('superiorPrecip', modelListing, fixed=TRUE)]
+superiorEvapListing = modelListing[grepl('superiorEvap', modelListing, fixed=TRUE)]
+superiorRunoffListing = modelListing[grepl('superiorRunoff', modelListing, fixed=TRUE)]
+
+miHuronPrecipListing = modelListing[grepl('miHuronPrecip', modelListing, fixed=TRUE)]
+miHuronEvapListing = modelListing[grepl('miHuronEvap', modelListing, fixed=TRUE)]
+miHuronRunoffListing = modelListing[grepl('miHuronRunoff', modelListing, fixed=TRUE)]
+
+eriePrecipListing = modelListing[grepl('eriePrecip', modelListing, fixed=TRUE)]
+erieEvapListing = modelListing[grepl('erieEvap', modelListing, fixed=TRUE)]
+erieRunoffListing = modelListing[grepl('erieRunoff', modelListing, fixed=TRUE)]
+
+ontarioPrecipListing = modelListing[grepl('ontarioPrecip', modelListing, fixed=TRUE)]
+ontarioEvapListing = modelListing[grepl('ontarioEvap', modelListing, fixed=TRUE)]
+ontarioRunoffListing = modelListing[grepl('ontarioRunoff', modelListing, fixed=TRUE)]
+
+# Assuming the configuration and code aren't changed in odd ways, things should be concurrent across lakes. So...
+
+### PRECIP
+
+totPrecipHists = length(superiorPrecipListing)*4
+# If we need to, we can sum(...) them all
+
+pdf("model_skill_hists_precip.pdf", width=7.5, height=10)
+layout(matrix(1:totPrecipHists, 4, length(superiorPrecipListing), TRUE)) # TRUE there is for by.row. Additionally, the length(...) may need to be modified if there is an inconsistent number of models across lakes for a component
+par(mar = c(2,1,2,1))
+par(oma = c(2,3,2,2))
+
+for(mdi in 1:length(superiorPrecipListing)){
+	hist(
+		modelSkillPoints[[superiorPrecipListing[mdi]]],
+		main=gsub('superiorPrecip', '', superiorPrecipListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Superior', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(miHuronPrecipListing)){
+	hist(
+		modelSkillPoints[[miHuronPrecipListing[mdi]]],
+		main=gsub('miHuronPrecip', '', miHuronPrecipListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Michigan-Huron', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(eriePrecipListing)){
+	hist(
+		modelSkillPoints[[eriePrecipListing[mdi]]],
+		main=gsub('eriePrecip', '', eriePrecipListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Erie', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(ontarioPrecipListing)){
+	hist(
+		modelSkillPoints[[ontarioPrecipListing[mdi]]],
+		main=gsub('ontarioPrecip', '', ontarioPrecipListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Ontario', 2, line=2, cex=0.85)
+	}
+}
+
+dev.off()
+
+
+### EVAP
+
+totEvapHists = length(superiorEvapListing)*4
+# If we need to, we can sum(...) them all
+
+pdf("model_skill_hists_evap.pdf", width=7.5, height=10)
+layout(matrix(1:totEvapHists, 4, length(superiorEvapListing), TRUE)) # TRUE there is for by.row. Additionally, the length(...) may need to be modified if there is an inconsistent number of models across lakes for a component
+par(mar = c(2,1,2,1))
+par(oma = c(2,3,2,2))
+
+for(mdi in 1:length(superiorEvapListing)){
+	hist(
+		modelSkillPoints[[superiorEvapListing[mdi]]],
+		main=gsub('superiorEvap', '', superiorEvapListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Superior', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(miHuronEvapListing)){
+	hist(
+		modelSkillPoints[[miHuronEvapListing[mdi]]],
+		main=gsub('miHuronEvap', '', miHuronEvapListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Michigan-Huron', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(erieEvapListing)){
+	hist(
+		modelSkillPoints[[erieEvapListing[mdi]]],
+		main=gsub('erieEvap', '', erieEvapListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Erie', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(ontarioEvapListing)){
+	hist(
+		modelSkillPoints[[ontarioEvapListing[mdi]]],
+		main=gsub('ontarioEvap', '', ontarioEvapListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Ontario', 2, line=2, cex=0.85)
+	}
+}
+
+dev.off()
+
+
+### RUNOFF
+
+totRunoffHists = length(superiorRunoffListing)*4
+# If we need to, we can sum(...) them all
+
+pdf("model_skill_hists_runoff.pdf", width=7.5, height=10)
+layout(matrix(1:totRunoffHists, 4, length(superiorRunoffListing), TRUE)) # TRUE there is for by.row. Additionally, the length(...) may need to be modified if there is an inconsistent number of models across lakes for a component
+par(mar = c(2,1,2,1))
+par(oma = c(2,3,2,2))
+
+for(mdi in 1:length(superiorRunoffListing)){
+	hist(
+		modelSkillPoints[[superiorRunoffListing[mdi]]],
+		main=gsub('superiorRunoff', '', superiorRunoffListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Superior', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(miHuronRunoffListing)){
+	hist(
+		modelSkillPoints[[miHuronRunoffListing[mdi]]],
+		main=gsub('miHuronRunoff', '', miHuronRunoffListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Michigan-Huron', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(erieRunoffListing)){
+	hist(
+		modelSkillPoints[[erieRunoffListing[mdi]]],
+		main=gsub('erieRunoff', '', erieRunoffListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Erie', 2, line=2, cex=0.85)
+	}
+}
+
+for(mdi in 1:length(ontarioRunoffListing)){
+	hist(
+		modelSkillPoints[[ontarioRunoffListing[mdi]]],
+		main=gsub('ontarioRunoff', '', ontarioRunoffListing[mdi], fixed=TRUE), col='dodgerblue2', border='dodgerblue4',
+		ylab='', cex.main=0.75, cex.axis=0.75
+	)
+	
+	if(mdi == 1){
+		mtext('Ontario', 2, line=2, cex=0.85)
+	}
+}
+
+dev.off()
+
+
+# If we're going to break these down by month, it may be visually sparse, as for an 120 month analysis, you get a scant 10 data points per month. However, it may be just as useful to make a data table of mean values. Using the 'm' month vector described above
+
+meanModelSkillPVals = matrix(NA, length(names(modelSkillPoints)), 12, TRUE)
+rownames(meanModelSkillPVals) = names(modelSkillPoints)
+
+for(mdi in 1:length(modelSkillPoints)){
+	for(mt in 1:12){
+		meanModelSkillPVals[names(modelSkillPoints)[mdi],mt] = 
+		mean(
+			modelSkillPoints[[names(modelSkillPoints)[mdi]]][m == mt],
+			na.rm=TRUE
+		)
+	}
+}
+
+write.table(meanModelSkillPVals, 'model_skill_pvals_bymonth.csv', append=FALSE, quote=FALSE, sep=',', row.names=TRUE, col.names=FALSE);
+
+# Then pop that open in Excel/LibreOffice and apply some conditional formatting for quick browsing
