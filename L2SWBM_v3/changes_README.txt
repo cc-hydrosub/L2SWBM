@@ -2,6 +2,8 @@ Changes between versions of the Laurentian Great Lakes L2SWBM:
 
 v1 - v2 ~ Ops - Ops_Res:
 
+NOTE: versions of the L2SWBM here are essentially forks/evolutions of the version on the NOAA-GLERL GitHub, and are here for operational use and development
+
 - Ops, feature listing:
 
 -- configure whether or not the model simulates channel flow and diversion bias (Outflow Bias)
