@@ -1,5 +1,12 @@
-L2SWBM CONFIGURATION OPTIONS
+#To Run L2SWBM:
 
+The L2SWBM was developed in the R programming environment (ver. 3.6.1). To execute the R-scripts available in this dataset, users must install the `rjags` (ver. 4.9 or greater) dependant library. Please note that, `rjags` requires the JAGS package (Just Another Gibbs Sampler; ver. 4.3.0) to run which is available at `https://sourceforge.net/projects/mcmc-jags/files/JAGS`.
+
+Before program execution, unzip the data.zip file into a folder in the working directory named ‘data’. 
+
+The software is run using the 'main_ALL.r' file. However, the `rootDir` variable in `main_ALL.r` must be updated to the working directory prior to execution.
+
+#L2SWBM CONFIGURATION OPTIONS
 - Model Name: The name you want for this model run, will help name the folder in results 
   and files contained within it. 
 
