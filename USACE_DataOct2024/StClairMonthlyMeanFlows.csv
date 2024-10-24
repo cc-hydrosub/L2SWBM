@@ -4,7 +4,7 @@
 #Stage Fall Discharge Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 #Coordinated Data Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 # Created by Heather Lucier
-# Last modified 2024-10-03 14:19:09 by DA9
+# Last modified 2024-10-21 07:44:38 by DA9
 #
 "Year","Month","St.Clair (IGS)","St. Clair (SFD+ADVM)","St. Clair (Coordinated)"
 1900,1,NA,4190,4190
@@ -1504,4 +1504,4 @@
 2024,7,5803,5800,NA
 2024,8,5771,5770,NA
 2024,9,5756,5760,NA
-2024,10,5654,NA,NA
+2024,10,5705,NA,NA

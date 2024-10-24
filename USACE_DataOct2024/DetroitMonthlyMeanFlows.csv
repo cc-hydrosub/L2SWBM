@@ -4,7 +4,7 @@
 #Stage Fall Discharge Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 #Coordinated Data Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 # Created by Heather Lucier
-# Last modified 2024-10-03 14:19:09 by DA9
+# Last modified 2024-10-21 07:44:38 by DA9
 #
 "Year","Month","Detroit (IGS)","Detroit (SFD+ADVM)","Detroit (Coordinated)"
 1900,1,NA,4300,4300
@@ -1504,4 +1504,4 @@
 2024,7,6364,6370,NA
 2024,8,6230,6230,NA
 2024,9,5952,5950,NA
-2024,10,6107,NA,NA
+2024,10,6139,NA,NA

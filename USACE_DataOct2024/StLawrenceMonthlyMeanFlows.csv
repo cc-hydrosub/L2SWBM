@@ -3,7 +3,7 @@
 #Stage Fall Discharge Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 #Coordinated Data Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 # Created by Heather Lucier
-# Last modified 2024-10-03 14:19:09 by DA9
+# Last modified 2024-10-21 07:44:39 by DA9
 #
 "Year","Month","St.Lawrence(SFD+ADVM)","St.Lawrence (Coordinated)"
 1900,1,5890,5890
@@ -1502,5 +1502,5 @@
 2024,6,7880,NA
 2024,7,8020,NA
 2024,8,7870,NA
-2024,9,7580,NA
+2024,9,7570,NA
 2024,10,NA,NA

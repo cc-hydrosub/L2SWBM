@@ -4,7 +4,7 @@
 #Stage Fall Discharge Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 #Coordinated Data Source: H:\SHAR\H&H\GL_H&HData & Reports\WaterBudgetTracking\ConnectingChannelFlows\data\OriginalData\csv\GLConnectingChannelFlows,1900-present_Columns.csv
 # Created by Heather Lucier
-# Last modified 2024-10-03 14:19:08 by DA9
+# Last modified 2024-10-21 07:44:38 by DA9
 #
 "Year","Month","St.Marys (IGS)","St.Clair (IGS)","Detroit (IGS)","St. Marys (Flow Accounting)","St. Clair (SFD+ADVM)","Detroit (SFD+ADVM)","Niagara+Welland(SFD+ADVM)","St.Lawrence(SFD+ADVM)","St. Marys (Coordinated)","St. Clair (Coordinated)","Detroit (Coordinated)","Niagara+Welland (Coordinated)","St.Lawrence (Coordinated)"
 1900,1,NA,NA,NA,2240,4190,4300,5381,5890,2240,4190,4300,5381,5890
@@ -1503,5 +1503,5 @@
 2024,6,2123,5720,6127,2070,5720,6260,6768,7880,NA,NA,NA,NA,NA
 2024,7,2421,5803,6364,2410,5800,6370,6758,8020,NA,NA,NA,NA,NA
 2024,8,2276,5771,6230,2310,5770,6230,6548,7870,NA,NA,NA,NA,NA
-2024,9,2232,5756,5952,2210,5760,5950,6188,7580,NA,NA,NA,NA,NA
-2024,10,2231,5654,6107,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
+2024,9,2232,5756,5952,2210,5760,5950,6188,7570,NA,NA,NA,NA,NA
+2024,10,1994,5705,6139,NA,NA,NA,NA,NA,NA,NA,NA,NA,NA
