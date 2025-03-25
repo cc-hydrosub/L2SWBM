@@ -1,0 +1,3 @@
+Current code being used in operational monthly runs by USACE and ECCC. Same code and config files being used in Annual runs.
+This code is the same as what has been used since the L2SWBM_v3.202303 in Archived Code, but the config file is different due to additional datasets that were added. 
+The config file for the monthly run now reflects what is being used for the annual run. This config was determined to be used after the analysis was conducted for the Nature paper.
